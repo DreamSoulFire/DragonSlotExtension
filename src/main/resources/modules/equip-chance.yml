@@ -1,0 +1,21 @@
+#名字随意
+示范例子:
+  #识别的lore
+  identifier: '装备几率'
+  #允许被概率装备的龙核槽位
+  #也就是你想让哪些槽位开启概率装备功能
+  dragon-core-slot:
+    - '额外槽位2'
+    - '额外槽位3'
+  #装备之后执行的指令
+  #支持papi变量
+  #格式 执行条件<->执行类型<->指令
+  #执行条件
+  # success 成功
+  # fail 失败
+  #执行类型
+  # player 玩家
+  # console 后台
+  commands:
+    - 'success<->player<->say 真不错'
+    - 'fail<->player<->say 太菜了'

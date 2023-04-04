@@ -1,0 +1,56 @@
+#插件前缀
+prefix: '&7[&6Dragon&bSlot&eExtension&7] '
+#插件帮助
+help:
+  - '&f/dse help  &a插件帮助'
+  - '&f/dse clear 玩家  &a清除玩家身上的错误物品'
+  - '&f/dse open 玩家  &a打开物品装备界面'
+  - '&f/dse reload  &a重载插件'
+#指令不存在
+no-child-command: '&c该指令不存在: '
+#没有权限
+dont-have-permission: '&c执行该指令需要权限: '
+#参数错误/不完整
+command-args-error: '&c指令参数错误或不完整,请检查是否输错了指令: '
+#控制台不可执行
+cant-use-in-console: '&c后台无法执行该指令'
+#无法拿起物品
+cant-take: '&4你无法拿取此物品'
+#无法切换到物品
+cant-swap: '&4你无法切换到此物品栏'
+#无法丢弃物品
+cant-drop: '&4你无法丢弃此物品'
+#无法快速移动物品
+cant-fast-move: '&4你无法快速移动物品'
+#无法切换副手
+cant-swap-hand: '&4你无法切换此物品到主副手'
+#物品获取失败
+get-item-error: '&4物品获取失败, 请检查配置是否出错'
+#身上存在违规物品:
+have-error-item: '&4身上存在违规物品, 已清除'
+#玩家不在线
+player-not-online: '&c该玩家不在线, 无法执行指令'
+#装备成功
+equip-success: '&a你成功装备了 <item>'
+#装备失败
+equip-fail: '&c装备失败, 物品 <item> 已被销毁'
+#保护装备
+equip-save: '&a已保留装备, 保护符已扣除'
+#无要装备的物品
+equip-none: '&c请放入要装备的物品'
+#拆卸提示
+take-notice: '&c请在 <time> 秒内, 连续点击两次以拆卸物品'
+#配置出错
+file-error: '&c配置出错, 请排查错误'
+#开启debug后
+debug-format:
+  #映射的debug功能
+  mapping: '&6你点击了&f: &b<id>'
+  #装备几率的debug功能
+  equip-chance:
+    - '&6物品几率&f: &b<chance>'
+    - '&6随机几率&f: &b<random>'
+    - '&e当物品几率大于等于随机几率时'
+    - '&a装备成功 &c反之失败'
+#重载插件
+reload: '&a插件重载成功'

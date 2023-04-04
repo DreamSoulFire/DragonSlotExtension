@@ -1,0 +1,94 @@
+#本界面只有在 mode 为 gui 时
+#才会生效 变量与发包同样如此
+#由于我个人没有贴图 且懒得做龙核配置
+#就写了一个最基本的功能界面
+#你完全可以改成更花的
+
+#可随意改名
+match: '装备界面'
+
+allowEscClose: true
+
+Functions:
+  open: |-
+    方法.异步执行方法('每秒更新界面');
+
+  # dse_equip_view 变量会在 你点击到 equip-chance.yml 里的
+  # dragon-core-slot 设置的的其中一个时 变成 true
+  # 可以用发包来自定义 view 的返回值
+  # 方法.发包('dse', 'view', 'false');
+  # 这样就是把返回值变为 'false'
+  每秒更新界面: |-
+    方法.延时(1000);
+    界面变量.visible = 方法.取变量('dse_equip_view');
+    方法.异步执行方法('每秒更新界面');
+
+背景:
+  type: texture
+  x: "(w-背景.width)/2"
+  y: "(h-背景.height)/2"
+  width: "150"
+  height: "200"
+  texture: "125,125,125,255"
+  center: true
+
+界面提示:
+  type: label
+  x: 背景.x+45
+  y: 背景.y+20
+  texts: "&6装备界面"
+  scale: 1.75
+  visible: 界面变量.visible
+
+装备槽位:
+  type: slot
+  x: 背景.x-30
+  y: 背景.y+70
+  scale: 1.5
+  identifier: '额外槽位2'
+
+槽位:
+  type: slot
+  x: 背景.x+55
+  y: 背景.y+60
+  # dse_equip_view_slot 变量会在 你点击到 equip-chance.yml 里的
+  # dragon-core-slot 设置的的其中一个时 变成 config.yml 下
+  # 设置的 view-slot
+  identifier: 方法.取变量('dse_equip_view_slot')
+  scale: 2.5
+  visible: 界面变量.visible
+
+原版槽位:
+  type: slot
+  x: 背景.x-30
+  y: 背景.y
+  scale: 1.5
+  identifier: "container_1"
+
+确认按钮:
+  type: texture
+  x: 背景.x+30
+  y: 背景.y+150
+  width: 30
+  height: 20
+  texture: "79,75,65,255"
+  text: "确认"
+  visible: 界面变量.visible
+  actions:
+    # 通过发包来装备物品
+    click: |-
+      方法.发包('dse', 'view', 'false');
+      方法.发包('dse', 'equip', 方法.取变量('dse_equip_view_slot'));
+
+关闭按钮:
+  type: texture
+  x: 确认按钮.x+确认按钮.width+30
+  y: 确认按钮.y
+  width: 确认按钮.width
+  height: 确认按钮.height
+  texture: "79,75,65,255"
+  text: "取消"
+  visible: 界面变量.visible
+  actions:
+    click: |-
+      方法.发包('dse', 'view', 'false');

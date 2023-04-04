@@ -1,0 +1,11 @@
+name: 'DragonSlotExtension'
+main: com.soulflame.dragonslotextension.DragonSlotExtension
+version: $version
+author: SoulFlame
+depend:
+  - DragonCore
+  - PlaceholderAPI
+commands:
+  dragonslotextension:
+    aliases:
+      - dse

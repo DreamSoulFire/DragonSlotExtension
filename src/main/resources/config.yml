@@ -1,0 +1,36 @@
+#debug功能
+debug:
+  #槽位映射的 debug
+  #开启后输出原版槽位
+  mapping: false
+  #槽位切换
+  swap: false
+  #槽位装备几率
+  #开启后输出概率
+  equip-chance: false
+
+#全局设定
+global-setting:
+  #装备几率功能
+  equip-chance:
+    #两种模式
+    #normal 普通模式
+    #gui 龙核界面模式
+    #使用 gui 后只能通过
+    #方法.发包('dse', 'equip', 方法.取变量('dse_equip_view_slot'))
+    #来使用 EquipChance 功能
+    mode: 'gui'
+    #显示用槽位
+    #用于过度
+    #从发包过度到你的装备槽
+    view-slot: '展示槽位'
+    #多久之内连续点击才可拿下物品
+    # 单位 ticks [20tick=1s]
+    take-time: 40
+    #物品保护设置
+    # name 和 lore
+    #都会在装备失败时被消耗
+    #而 permission 不会被消耗
+    save-item:
+      - 'permission<->dse.equip.save'
+      - 'name<->装备保护符'
