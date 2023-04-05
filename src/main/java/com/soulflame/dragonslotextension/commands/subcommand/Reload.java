@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 import java.io.File;
 
-public class ReloadCommand extends CommandBase {
+public class Reload extends CommandBase {
 
     @Override
     public void onConsoleCommand(CommandSender sender, String[] args) {

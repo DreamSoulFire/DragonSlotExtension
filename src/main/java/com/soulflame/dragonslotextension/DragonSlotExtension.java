@@ -4,10 +4,11 @@ import com.soulflame.dragonslotextension.commands.MainCommand;
 import com.soulflame.dragonslotextension.filemanager.config.*;
 import com.soulflame.dragonslotextension.hook.DragonCoreHook;
 import com.soulflame.dragonslotextension.hook.PAPIHook;
-import com.soulflame.dragonslotextension.listener.EquipGuiEvent;
-import com.soulflame.dragonslotextension.listener.EquipChanceEvent;
-import com.soulflame.dragonslotextension.listener.mapping.AntiActionEvent;
-import com.soulflame.dragonslotextension.listener.mapping.EquipEvent;
+import com.soulflame.dragonslotextension.listener.equip.EquipChanceGui;
+import com.soulflame.dragonslotextension.listener.equip.EquipChanceNormal;
+import com.soulflame.dragonslotextension.listener.mapping.AntiAction;
+import com.soulflame.dragonslotextension.listener.mapping.EquipItem;
+import com.soulflame.dragonslotextension.listener.swap.SwapItem;
 import com.soulflame.dragonslotextension.utils.TextUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -20,7 +21,7 @@ public class DragonSlotExtension extends JavaPlugin {
     private static DragonSlotExtension plugin;
     public static ConfigFile config;
     public static EquipChance equipChance;
-    public static EquipChanceGui equipChanceGui;
+    public static com.soulflame.dragonslotextension.filemanager.config.EquipChanceGui equipChanceGui;
     public static MappingSlot mappingSlot;
     public static Message message;
     public static SwapSlot swapSlot;
@@ -33,17 +34,18 @@ public class DragonSlotExtension extends JavaPlugin {
         File folder = plugin.getDataFolder();
         config = new ConfigFile(folder, "config.yml");
         equipChance = new EquipChance(folder, "modules/equip-chance.yml");
-        equipChanceGui = new EquipChanceGui(folder, "gui/equip-chance-gui.yml");
+        equipChanceGui = new com.soulflame.dragonslotextension.filemanager.config.EquipChanceGui(folder, "gui/equip-chance-gui.yml");
         mappingSlot = new MappingSlot(folder, "modules/mapping.yml");
         message = new Message(folder, "message.yml");
         swapSlot = new SwapSlot(folder, "modules/swap.yml");
     }
 
     private void registerEvents() {
-        Bukkit.getPluginManager().registerEvents(new EquipGuiEvent(), this);
-        Bukkit.getPluginManager().registerEvents(new AntiActionEvent(), this);
-        Bukkit.getPluginManager().registerEvents(new EquipEvent(), this);
-        Bukkit.getPluginManager().registerEvents(new EquipChanceEvent(), this);
+        Bukkit.getPluginManager().registerEvents(new EquipChanceGui(), this);
+        Bukkit.getPluginManager().registerEvents(new AntiAction(), this);
+        Bukkit.getPluginManager().registerEvents(new EquipItem(), this);
+        Bukkit.getPluginManager().registerEvents(new EquipChanceNormal(), this);
+        Bukkit.getPluginManager().registerEvents(new SwapItem(), this);
     }
 
     @Override

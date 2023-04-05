@@ -37,7 +37,7 @@ public class ItemUtil {
         if (!meta.hasLore()) return false;
         List<String> lores = meta.getLore();
         String last_lore = lores.get(lores.size() - 1);
-        Map<String, MappingData> dataMap = mapping.mappingMap;
+        Map<String, MappingData> dataMap = mapping.map;
         for (String key : dataMap.keySet()) {
             MappingData data = dataMap.get(key);
             List<String> config_lores = data.getLore();
@@ -107,7 +107,10 @@ public class ItemUtil {
     public static void saveItem(Player player, ItemStack item) {
         boolean isError = false;
         for (String save : DragonSlotExtension.config.saveItems) {
-            if (!save.contains("<->")) continue;
+            if (!save.contains("<->")) {
+                TextUtil.sendMessage(message.fileError);
+                continue;
+            }
             String[] split = save.split("<->");
             if (split.length != 2) {
                 TextUtil.sendMessage(message.fileError);
@@ -189,7 +192,7 @@ public class ItemUtil {
         if (item == null || Material.AIR.equals(item.getType())) return;
         if (viewSlot == null) return;
         EquipChance yaml = DragonSlotExtension.equipChance;
-        Map<String, EquipChanceData> dataMap = yaml.equipChanceMap;
+        Map<String, EquipChanceData> dataMap = yaml.map;
         AtomicBoolean isSuccess = new AtomicBoolean(false);
         for (String key : dataMap.keySet()) {
             EquipChanceData data = dataMap.get(key);

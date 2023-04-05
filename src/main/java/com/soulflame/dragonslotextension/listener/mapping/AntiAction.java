@@ -20,7 +20,7 @@ import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-public class AntiActionEvent implements Listener {
+public class AntiAction implements Listener {
     private final Message message = DragonSlotExtension.message;
 
     /**

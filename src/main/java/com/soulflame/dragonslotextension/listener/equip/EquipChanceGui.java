@@ -1,4 +1,4 @@
-package com.soulflame.dragonslotextension.listener;
+package com.soulflame.dragonslotextension.listener.equip;
 
 import com.soulflame.dragonslotextension.DragonSlotExtension;
 import com.soulflame.dragonslotextension.filemanager.config.ConfigFile;
@@ -24,19 +24,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class EquipGuiEvent implements Listener {
+public class EquipChanceGui implements Listener {
 
     private static final Map<String, String> map = new HashMap<>();
     private static final ConfigFile configFile = DragonSlotExtension.config;
     private static String clickSlot;
     private static String viewSlot;
     private static final List<Player> allowTake = new ArrayList<>();
-
-    @EventHandler
-    public void debug(CustomPacketEvent event) {
-        System.out.println(event.getIdentifier());
-        System.out.println(event.getData());
-    }
 
     @EventHandler
     public void openScreen(CustomPacketEvent event) {
@@ -54,21 +48,32 @@ public class EquipGuiEvent implements Listener {
         Player player = event.getPlayer();
         ItemStack cursor = player.getItemOnCursor();
         List<String> eventData = event.getData();
-        Map<String, EquipChanceData> dataMap = DragonSlotExtension.equipChance.equipChanceMap;
+        Map<String, EquipChanceData> dataMap = DragonSlotExtension.equipChance.map;
         dataMap.keySet().forEach(key -> {
             EquipChanceData data = dataMap.get(key);
             data.getSlotList().forEach(slot -> {
                 if (!slot.equalsIgnoreCase(eventData.get(0))) return;
                 if (cursor != null && !Material.AIR.equals(cursor.getType())) return;
-                if (!allowTake.contains(player)) {
-                    allowTake.add(player);
-                    event.setCancelled(true);
-                    String notice = DragonSlotExtension.message.takeNotice;
-                    notice = notice.replace("<time>", String.valueOf(configFile.equipTakeTime / 20));
-                    TextUtil.sendMessage(player, notice);
-                }
-                Bukkit.getScheduler().runTaskLaterAsynchronously(DragonSlotExtension.getPlugin(),
-                        () -> allowTake.remove(player), configFile.equipTakeTime);
+                SlotAPI.getSlotItem(player, eventData.get(0), new IDataBase.Callback<ItemStack>() {
+                    @Override
+                    public void onResult(ItemStack item) {
+                        if (item == null || Material.AIR.equals(item.getType())) return;
+                        if (!allowTake.contains(player)) {
+                            allowTake.add(player);
+                            event.setCancelled(true);
+                            String notice = DragonSlotExtension.message.takeNotice;
+                            notice = notice.replace("<time>", String.valueOf(configFile.equipTakeTime / 20));
+                            TextUtil.sendMessage(player, notice);
+                        }
+                        Bukkit.getScheduler().runTaskLaterAsynchronously(DragonSlotExtension.getPlugin(),
+                                () -> allowTake.remove(player), configFile.equipTakeTime);
+                    }
+
+                    @Override
+                    public void onFail() {
+                        TextUtil.sendMessage(DragonSlotExtension.message.itemError);
+                    }
+                });
             });
         });
     }
@@ -78,8 +83,9 @@ public class EquipGuiEvent implements Listener {
         if (!"gui".equalsIgnoreCase(configFile.equipMode)) return;
         if (!"DragonCore_ClickSlot".equalsIgnoreCase(event.getIdentifier())) return;
         Player player = event.getPlayer();
+        ItemStack cursor = player.getItemOnCursor();
         List<String> eventData = event.getData();
-        Map<String, EquipChanceData> dataMap = DragonSlotExtension.equipChance.equipChanceMap;
+        Map<String, EquipChanceData> dataMap = DragonSlotExtension.equipChance.map;
         dataMap.keySet().forEach(key -> {
             EquipChanceData data = dataMap.get(key);
             data.getSlotList().forEach(slot -> {
@@ -95,6 +101,7 @@ public class EquipGuiEvent implements Listener {
                     public void onResult(ItemStack item) {
                         if (item != null && !Material.AIR.equals(item.getType())) return;
                         event.setCancelled(true);
+                        if (cursor == null || Material.AIR.equals(cursor.getType())) return;
                         map.replace("dse_equip_view", "true");
                         PacketSender.sendSyncPlaceholder(player, map);
                     }

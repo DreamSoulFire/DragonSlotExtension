@@ -3,15 +3,18 @@ prefix: '&7[&6Dragon&bSlot&eExtension&7] '
 #插件帮助
 help:
   - '&f/dse help  &a插件帮助'
+  - '&f/dse change 玩家 槽位1 槽位2  &a交换玩家槽位1与槽位2上的物品'
   - '&f/dse clear 玩家  &a清除玩家身上的错误物品'
+  - '&f/dse get 玩家 槽位 是否拿取  &a获得玩家槽位上的物品'
   - '&f/dse open 玩家  &a打开物品装备界面'
+  - '&f/dse set 玩家 槽位 是否强制设置 是否拿取手上物品  &a将玩家槽位上的物品设置为手上的物品'
   - '&f/dse reload  &a重载插件'
 #指令不存在
-no-child-command: '&c该指令不存在: '
+no-child-command: '&c该指令不存在: <command>'
 #没有权限
-dont-have-permission: '&c执行该指令需要权限: '
+dont-have-permission: '&c执行该指令需要权限: <permission>'
 #参数错误/不完整
-command-args-error: '&c指令参数错误或不完整,请检查是否输错了指令: '
+command-args-error: '&c指令参数错误或不完整,请检查是否输错了指令: <command>'
 #控制台不可执行
 cant-use-in-console: '&c后台无法执行该指令'
 #无法拿起物品
@@ -40,6 +43,20 @@ equip-save: '&a已保留装备, 保护符已扣除'
 equip-none: '&c请放入要装备的物品'
 #拆卸提示
 take-notice: '&c请在 <time> 秒内, 连续点击两次以拆卸物品'
+#槽位物品为空
+slot-item-air: '&c该槽位物品为空'
+#槽位物品不为空
+slot-item-not-air: '&c该槽位物品不为空'
+#获取槽位物品
+slot-item-get: '&a你得到了玩家 <target> 的 <slot> 里的物品 <item> * <amount>'
+#设置槽位物品
+slot-item-set: '&a你成功将手上的物品设置到 <slot>'
+#交换槽位物品
+slot-item-change: '&a你成功交换了物品'
+#成功使用交换方案
+swap-item: '&a你成功使用了交换方案&f: &b<plan>'
+#手上没有物品
+item-in-hand-air: '&c你手上没有任何物品'
 #配置出错
 file-error: '&c配置出错, 请排查错误'
 #开启debug后
@@ -52,5 +69,7 @@ debug-format:
     - '&6随机几率&f: &b<random>'
     - '&e当物品几率大于等于随机几率时'
     - '&a装备成功 &c反之失败'
+  #槽位交换的debug功能
+  swap-item: '&6你按下了按键&f: &b<key>'
 #重载插件
 reload: '&a插件重载成功'

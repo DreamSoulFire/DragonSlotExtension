@@ -9,6 +9,7 @@ import java.util.List;
 public class ConfigFile extends FileManager {
     public boolean debugMapping;
     public boolean debugEquipChance;
+    public boolean debugSwapItem;
     public String equipMode;
     public String equipViewSlot;
     public int equipTakeTime;
@@ -23,6 +24,7 @@ public class ConfigFile extends FileManager {
         YamlConfiguration yaml = getYaml();
         debugMapping = yaml.getBoolean("debug.mapping", false);
         debugEquipChance = yaml.getBoolean("debug.equip-chance", false);
+        debugSwapItem = yaml.getBoolean("debug.swap-slot", false);
         equipMode = yaml.getString("global-setting.equip-chance.mode", "normal");
         equipViewSlot = yaml.getString("global-setting.equip-chance.view-slot", "展示槽位");
         equipTakeTime = yaml.getInt("global-setting.equip-chance.take-time", 40);

@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class EquipChance extends FileManager {
 
-    public Map<String, EquipChanceData> equipChanceMap;
+    public Map<String, EquipChanceData> map;
 
     /**
      * 读取配置文件
@@ -26,7 +26,7 @@ public class EquipChance extends FileManager {
 
     @Override
     protected void loadData() {
-        equipChanceMap  = new HashMap<>();
+        map = new HashMap<>();
         YamlConfiguration yaml = getYaml();
         ConfigurationSection keys = yaml.getConfigurationSection("");
         keys.getKeys(false).forEach(key -> {
@@ -35,7 +35,7 @@ public class EquipChance extends FileManager {
             List<String> slotList = section.getStringList("dragon-core-slot");
             List<String> commands = section.getStringList("commands");
             EquipChanceData data = new EquipChanceData(identifier, slotList, commands);
-            equipChanceMap.put(key, data);
+            map.put(key, data);
         });
     }
 }

@@ -1,4 +1,4 @@
-package com.soulflame.dragonslotextension.listener;
+package com.soulflame.dragonslotextension.listener.equip;
 
 import com.soulflame.dragonslotextension.DragonSlotExtension;
 import com.soulflame.dragonslotextension.utils.ItemUtil;
@@ -8,7 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
-public class EquipChanceEvent implements Listener {
+public class EquipChanceNormal implements Listener {
 
     @EventHandler
     public void onEquip(PlayerSlotUpdateEvent event) {

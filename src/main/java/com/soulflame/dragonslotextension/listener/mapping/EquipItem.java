@@ -18,7 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 import java.util.Map;
 
-public class EquipEvent implements Listener {
+public class EquipItem implements Listener {
     private final Message message = DragonSlotExtension.message;
     @EventHandler
     public void clickSlot(CustomPacketEvent event) {
@@ -26,7 +26,7 @@ public class EquipEvent implements Listener {
         if (!event.getIdentifier().equals("DragonCore_ClickSlot")) return;
         if (event.getData().size() != 2) return;
         String identifier = event.getData().get(0);
-        Map<String, MappingData> dataMap = DragonSlotExtension.mappingSlot.mappingMap;
+        Map<String, MappingData> dataMap = DragonSlotExtension.mappingSlot.map;
         for (String key : dataMap.keySet()) {
             MappingData data = dataMap.get(key);
             String slot = data.getDragonSlots();
@@ -45,7 +45,7 @@ public class EquipEvent implements Listener {
         Player player = event.getPlayer();
         String dragon_slot = event.getIdentifier();
         if (dragon_slot == null) return;
-        Map<String, MappingData> dataMap = DragonSlotExtension.mappingSlot.mappingMap;
+        Map<String, MappingData> dataMap = DragonSlotExtension.mappingSlot.map;
         for (String key : dataMap.keySet()) {
             MappingData data = dataMap.get(key);
             String slot = data.getDragonSlots();

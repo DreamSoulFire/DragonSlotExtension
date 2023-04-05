@@ -2,9 +2,7 @@ package com.soulflame.dragonslotextension.commands;
 
 import com.google.common.collect.Maps;
 import com.soulflame.dragonslotextension.DragonSlotExtension;
-import com.soulflame.dragonslotextension.commands.subcommand.ClearCommand;
-import com.soulflame.dragonslotextension.commands.subcommand.OpenCommand;
-import com.soulflame.dragonslotextension.commands.subcommand.ReloadCommand;
+import com.soulflame.dragonslotextension.commands.subcommand.*;
 import com.soulflame.dragonslotextension.filemanager.config.Message;
 import com.soulflame.dragonslotextension.utils.TextUtil;
 import org.bukkit.command.Command;
@@ -22,9 +20,13 @@ public class MainCommand implements TabExecutor {
 
     public MainCommand() {
         commandMap = Maps.newHashMap();
-        registerCommand(new ClearCommand());
-        registerCommand(new OpenCommand());
-        registerCommand(new ReloadCommand());
+        registerCommand(new ChangeSlot());
+        registerCommand(new Clear());
+        registerCommand(new GetSlot());
+        registerCommand(new Help());
+        registerCommand(new Open());
+        registerCommand(new Reload());
+        registerCommand(new SetSlot());
     }
 
     private void registerCommand(CommandBase commandBase) {
@@ -37,11 +39,17 @@ public class MainCommand implements TabExecutor {
         if (args.length > 0) {
             CommandBase commandBase = commandMap.get(args[0].toLowerCase());
             if (commandBase == null) {
-                TextUtil.sendMessage(sender, message.noChildCommand + args[0]);
+                String noChild = message.noChildCommand;
+                noChild = noChild.replace("<command>", args[0]);
+                TextUtil.sendMessage(sender, noChild);
             } else if (!sender.hasPermission(commandBase.getPermission())) {
-                TextUtil.sendMessage(sender, message.dontHavePermission + commandBase.getPermission());
+                String perm = message.dontHavePermission;
+                perm = perm.replace("<permission>", commandBase.getPermission());
+                TextUtil.sendMessage(sender, perm);
             } else if (commandBase.getLength() > args.length) {
-                TextUtil.sendMessage(sender, message.commandError + commandBase.getCommandDesc());
+                String error = message.commandError;
+                error = error.replace("<command>", commandBase.getCommand());
+                TextUtil.sendMessage(sender, error + commandBase.getCommandDesc());
             } else {
                 String[] strings = Arrays.copyOfRange(args, 1, args.length);
                 if (!(sender instanceof Player)) {

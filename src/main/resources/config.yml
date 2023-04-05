@@ -4,7 +4,7 @@ debug:
   #开启后输出原版槽位
   mapping: false
   #槽位切换
-  swap: false
+  swap-slot: false
   #槽位装备几率
   #开启后输出概率
   equip-chance: false

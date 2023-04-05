@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MappingSlot extends FileManager {
-    public Map<String, MappingData> mappingMap;
+    public Map<String, MappingData> map;
 
     /**
      * 读取配置文件
@@ -25,7 +25,7 @@ public class MappingSlot extends FileManager {
 
     @Override
     protected void loadData() {
-        mappingMap = new HashMap<>();
+        map = new HashMap<>();
         YamlConfiguration yaml = getYaml();
         ConfigurationSection keys = yaml.getConfigurationSection("");
         for (String key : keys.getKeys(false)) {
@@ -34,7 +34,7 @@ public class MappingSlot extends FileManager {
             String vanillaSlots = section.getString("vanilla", "");
             List<String> lores = section.getStringList("identifier-lore");
             MappingData data = new MappingData(dragonSlots, vanillaSlots, lores);
-            mappingMap.put(key, data);
+            map.put(key, data);
         }
     }
 }
