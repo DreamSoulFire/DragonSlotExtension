@@ -3,11 +3,12 @@ prefix: '&7[&6Dragon&bSlot&eExtension&7] '
 #插件帮助
 help:
   - '&f/dse help  &a插件帮助'
-  - '&f/dse change 玩家 槽位1 槽位2  &a交换玩家槽位1与槽位2上的物品'
   - '&f/dse clear 玩家  &a清除玩家身上的错误物品'
-  - '&f/dse get 玩家 槽位 是否拿取  &a获得玩家槽位上的物品'
   - '&f/dse open 玩家  &a打开物品装备界面'
+  - '&f/dse get 玩家 槽位 是否拿取  &a获得玩家槽位上的物品'
   - '&f/dse set 玩家 槽位 是否强制设置 是否拿取手上物品  &a将玩家槽位上的物品设置为手上的物品'
+  - '&f/dse change 玩家 槽位1 槽位2  &a交换玩家槽位1与槽位2上的物品'
+  - '&f/dse remove 玩家 槽位  &a删除玩家槽位上的物品'
   - '&f/dse reload  &a重载插件'
 #指令不存在
 no-child-command: '&c该指令不存在: <command>'
@@ -53,6 +54,8 @@ slot-item-get: '&a你得到了玩家 <target> 的 <slot> 里的物品 <item> * <
 slot-item-set: '&a你成功将手上的物品设置到 <slot>'
 #交换槽位物品
 slot-item-change: '&a你成功交换了物品'
+#移除槽位物品
+slot-item-remove: '&a你成功移除了 <slot> 上的 <item>'
 #成功使用交换方案
 swap-item: '&a你成功使用了交换方案&f: &b<plan>'
 #手上没有物品

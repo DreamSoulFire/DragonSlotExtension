@@ -92,4 +92,31 @@ public class SlotUtil {
             }
         });
     }
+
+    public static void removeSlot(Player player, Player target, String slot) {
+        SlotAPI.getSlotItem(target, slot, new IDataBase.Callback<ItemStack>() {
+            @Override
+            public void onResult(ItemStack item) {
+                if (item == null || Material.AIR.equals(item.getType())) {
+                    TextUtil.sendMessage(player, DragonSlotExtension.message.slotItemAir);
+                    return;
+                }
+                String slotItemRemove = DragonSlotExtension.message.slotItemRemove;
+                slotItemRemove = slotItemRemove.replace("<slot>", slot);
+                ItemMeta meta = item.getItemMeta();
+                if (meta.hasDisplayName())
+                    slotItemRemove = slotItemRemove.replace("<item>", meta.getDisplayName());
+                else
+                    slotItemRemove = slotItemRemove.replace("<item>", meta.getLocalizedName());
+                item.setType(Material.AIR);
+                SlotAPI.setSlotItem(target, slot, item, true);
+                TextUtil.sendMessage(player, slotItemRemove);
+            }
+
+            @Override
+            public void onFail() {
+                TextUtil.sendMessage(player, DragonSlotExtension.message.itemError);
+            }
+        });
+    }
 }

@@ -33,6 +33,7 @@ public class Message extends FileManager {
     public String slotItemGet;
     public String slotItemSet;
     public String slotItemChange;
+    public String slotItemRemove;
     public String swapItem;
     public String itemInHandAir;
     public String fileError;
@@ -79,6 +80,7 @@ public class Message extends FileManager {
         slotItemGet = yaml.getString("slot-item-get", "&a你得到了玩家 <target> 的 <slot> 里的物品 <item> * <amount>");
         slotItemSet = yaml.getString("slot-item-set", "&a你成功将手上的物品设置到 <slot>");
         slotItemChange = yaml.getString("slot-item-change", "&a你成功交换了物品");
+        slotItemRemove = yaml.getString("slot-item-remove", "&a你成功移除了 <slot> 上的 <item>");
         swapItem = yaml.getString("swap-item", "&a你成功使用了交换方案&f: &b<plan>");
         itemInHandAir = yaml.getString("item-in-hand-air", "&c你手上没有任何物品");
         fileError = yaml.getString("file-error", "&c配置出错, 请排查错误");

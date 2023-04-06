@@ -146,45 +146,54 @@ public class ItemUtil {
         }
     }
 
-    public static void success(AtomicBoolean isSuccess, Player player, EquipChanceData data, ItemMeta itemMeta) {
+    public static void success(AtomicBoolean isSuccess, Player player, EquipChanceData data, ItemStack item) {
         isSuccess.set(true);
+        ItemMeta itemMeta = item.getItemMeta();
         CommandUtil.run(player, data.getCommands(), isSuccess.get());
-        if (!itemMeta.hasDisplayName()) return;
-        TextUtil.sendMessage(player, message.equipSuccess.replace("<item>", itemMeta.getDisplayName()));
+        String success = message.equipSuccess;
+        if (!itemMeta.hasDisplayName()) success = success.replace("<item>", item.getType().name());
+        else success = success.replace("<item>", itemMeta.getDisplayName());
+        TextUtil.sendMessage(player, success);
     }
 
     public static void success(AtomicBoolean isSuccess, Player player, EquipChanceData data,
-                               String identifier, String viewSlot, ItemStack item, ItemMeta itemMeta) {
+                               String identifier, String viewSlot, ItemStack item) {
         isSuccess.set(true);
+        ItemMeta itemMeta = item.getItemMeta();
         CommandUtil.run(player, data.getCommands(), isSuccess.get());
         SlotAPI.setSlotItem(player, identifier, item, true);
+        String success = message.equipSuccess;
+        if (!itemMeta.hasDisplayName()) success = success.replace("<item>", item.getType().name());
+        else success = success.replace("<item>", itemMeta.getDisplayName());
         item.setType(Material.AIR);
         SlotAPI.setSlotItem(player, viewSlot, item, true);
-        if (!itemMeta.hasDisplayName()) return;
-        TextUtil.sendMessage(player, message.equipSuccess.replace("<item>", itemMeta.getDisplayName()));
+        TextUtil.sendMessage(player, success);
     }
 
     public static void fail(AtomicBoolean isSuccess, Player player, EquipChanceData data,
-                            String viewSlot, ItemStack item, ItemMeta itemMeta) {
+                            String viewSlot, ItemStack item) {
         CommandUtil.run(player, data.getCommands(), isSuccess.get());
         saveItem(player, item);
+        ItemMeta itemMeta = item.getItemMeta();
+        String equipFail = message.equipFail;
+        if (!itemMeta.hasDisplayName()) equipFail = equipFail.replace("<item>", item.getType().name());
+        else equipFail = equipFail.replace("<item>", itemMeta.getDisplayName());
         item.setType(Material.AIR);
         SlotAPI.setSlotItem(player, viewSlot, item, true);
-        if (itemMeta.hasDisplayName())
-            TextUtil.sendMessage(player, message.equipFail.replace("<item>", itemMeta.getDisplayName()));
+        TextUtil.sendMessage(player, equipFail);
     }
 
     public static void lastRun(AtomicBoolean isSuccess, boolean isGui, Player player, EquipChanceData data, double chance, double randomChance,
-                               String identifier, String viewSlot, ItemStack item, ItemMeta itemMeta) {
+                               String identifier, String viewSlot, ItemStack item) {
         if (chance / 100.0D >= randomChance) {
             if (!isGui) {
-                success(isSuccess, player, data, itemMeta);
+                success(isSuccess, player, data, item);
                 return;
             }
-            success(isSuccess, player, data, identifier, viewSlot, item, itemMeta);
+            success(isSuccess, player, data, identifier, viewSlot, item);
             return;
         }
-        fail(isSuccess, player, data, viewSlot, item, itemMeta);
+        fail(isSuccess, player, data, viewSlot, item);
     }
 
     public static void runEquip(ItemStack item, String viewSlot, String identifier, Player player, boolean isGui) {
@@ -210,7 +219,7 @@ public class ItemUtil {
                         TextUtil.sendMessage(line);
                     }
                 }
-                lastRun(isSuccess, isGui, player, data, chance, randomChance, identifier, viewSlot, item, itemMeta);
+                lastRun(isSuccess, isGui, player, data, chance, randomChance, identifier, viewSlot, item);
             });
         }
     }

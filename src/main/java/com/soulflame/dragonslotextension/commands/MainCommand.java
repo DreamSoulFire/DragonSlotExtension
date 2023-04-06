@@ -26,6 +26,7 @@ public class MainCommand implements TabExecutor {
         registerCommand(new Help());
         registerCommand(new Open());
         registerCommand(new Reload());
+        registerCommand(new RemoveSlot());
         registerCommand(new SetSlot());
     }
 
