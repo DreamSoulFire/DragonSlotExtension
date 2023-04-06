@@ -54,6 +54,7 @@ public class ItemUtil {
 
     /**
      * 清除玩家的违规物品
+     * @param player 玩家
      */
     public static void removeItemInPlayer(Player player) {
         for (ItemStack item : player.getInventory()) {
@@ -82,6 +83,12 @@ public class ItemUtil {
         itemStack.setItemMeta(meta);
     }
 
+    /**
+     * 获取物品lore上的数值
+     * @param lore lore
+     * @param regex 检测标识
+     * @return 数值
+     */
     public static double getLoreDouble(List<String> lore, String regex) {
         double max = 0.0D;
         if (lore.isEmpty() || regex.isEmpty()) return max;
@@ -97,6 +104,16 @@ public class ItemUtil {
         return max;
     }
 
+    /**
+     * 检查物品是否包含文本
+     * 包含则为玩家添加物品
+     * 且发送物品保留信息
+     * @param player 玩家
+     * @param item 物品
+     * @param addItem 保留的物品
+     * @param text 文本
+     * @param value 包含的文本
+     */
     public static void checkItem(Player player, ItemStack item, ItemStack addItem, String text, String value) {
         if (!text.contains(value) && !text.equalsIgnoreCase(value)) return;
         item.setAmount(item.getAmount() - 1);
@@ -104,6 +121,11 @@ public class ItemUtil {
         player.getInventory().addItem(addItem);
     }
 
+    /**
+     * 保留物品
+     * @param player 玩家
+     * @param item 保留的物品
+     */
     public static void saveItem(Player player, ItemStack item) {
         boolean isError = false;
         for (String save : DragonSlotExtension.config.saveItems) {
@@ -146,6 +168,14 @@ public class ItemUtil {
         }
     }
 
+    /**
+     * 非界面装备物品时
+     * 成功装备物品执行
+     * @param isSuccess 是否成功
+     * @param player 玩家
+     * @param data 节点数据
+     * @param item 物品
+     */
     public static void success(AtomicBoolean isSuccess, Player player, EquipChanceData data, ItemStack item) {
         isSuccess.set(true);
         ItemMeta itemMeta = item.getItemMeta();
@@ -156,6 +186,16 @@ public class ItemUtil {
         TextUtil.sendMessage(player, success);
     }
 
+    /**
+     * 界面装备物品时
+     * 成功装备物品执行
+     * @param isSuccess 是否成功
+     * @param player 玩家
+     * @param data 节点数据
+     * @param identifier 槽位
+     * @param viewSlot 过度槽位
+     * @param item 物品
+     */
     public static void success(AtomicBoolean isSuccess, Player player, EquipChanceData data,
                                String identifier, String viewSlot, ItemStack item) {
         isSuccess.set(true);
@@ -170,6 +210,14 @@ public class ItemUtil {
         TextUtil.sendMessage(player, success);
     }
 
+    /**
+     * 物品装备失败执行
+     * @param isSuccess 是否成功
+     * @param player 玩家
+     * @param data 节点数据
+     * @param viewSlot 过度槽位
+     * @param item 物品
+     */
     public static void fail(AtomicBoolean isSuccess, Player player, EquipChanceData data,
                             String viewSlot, ItemStack item) {
         CommandUtil.run(player, data.getCommands(), isSuccess.get());
@@ -183,6 +231,18 @@ public class ItemUtil {
         TextUtil.sendMessage(player, equipFail);
     }
 
+    /**
+     * 检测几率
+     * @param isSuccess 是否成功
+     * @param isGui 是否是gui
+     * @param player 玩家
+     * @param data 节点数据
+     * @param chance 几率
+     * @param randomChance 随机几率
+     * @param identifier 槽位
+     * @param viewSlot 过度槽位
+     * @param item 物品
+     */
     public static void lastRun(AtomicBoolean isSuccess, boolean isGui, Player player, EquipChanceData data, double chance, double randomChance,
                                String identifier, String viewSlot, ItemStack item) {
         if (chance / 100.0D >= randomChance) {
@@ -196,6 +256,14 @@ public class ItemUtil {
         fail(isSuccess, player, data, viewSlot, item);
     }
 
+    /**
+     * 装备物品
+     * @param item 物品
+     * @param viewSlot 过度槽位
+     * @param identifier 槽位
+     * @param player 玩家
+     * @param isGui 是否是gui
+     */
     public static void runEquip(ItemStack item, String viewSlot, String identifier, Player player, boolean isGui) {
         double randomChance = new Random().nextDouble();
         if (item == null || Material.AIR.equals(item.getType())) return;

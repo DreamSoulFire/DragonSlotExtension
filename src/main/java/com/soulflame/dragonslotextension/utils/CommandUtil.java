@@ -9,6 +9,13 @@ import org.bukkit.entity.Player;
 import java.util.List;
 
 public class CommandUtil {
+
+    /**
+     * 构建指令
+     * @param sender 指令执行者
+     * @param commands 指令
+     * @param isConsole 是否为控制台执行
+     */
     public static void build(CommandSender sender, String commands, boolean isConsole) {
         Player player = (Player) sender;
         commands = TextUtil.replaceName(player, commands);
@@ -20,12 +27,23 @@ public class CommandUtil {
         Bukkit.dispatchCommand(player, commands);
     }
 
+    /**
+     * 判断指令执行类型
+     * @param sender 玩家
+     * @param command 指令
+     * @param index 下标
+     */
     public static void run(CommandSender sender, String[] command,int index) {
         if ("console".equalsIgnoreCase(command[index - 2])) build(sender, command[index - 1], true);
         else if ("player".equalsIgnoreCase(command[index - 2])) build(sender, command[index - 1], false);
         else TextUtil.sendMessage(DragonSlotExtension.message.fileError);
     }
 
+    /**
+     * 检测配置文件指令列表的长度
+     * @param sender 文件
+     * @param command 指令列表
+     */
     public static void run(CommandSender sender, String[] command) {
         switch (command.length) {
             case 3:
@@ -37,6 +55,12 @@ public class CommandUtil {
         }
     }
 
+    /**
+     * 运行指令
+     * @param sender 玩家
+     * @param commands 指令
+     * @param isSuccess 是否在成功时运行
+     */
     public static void run(CommandSender sender, String commands, boolean isSuccess) {
         if (!commands.contains("<->")) {
             TextUtil.sendMessage(DragonSlotExtension.message.fileError);
@@ -59,6 +83,12 @@ public class CommandUtil {
         }
     }
 
+    /**
+     * 运行指令
+     * @param sender 玩家
+     * @param commands 指令列表
+     * @param isSuccess 是否在成功时运行
+     */
     public static void run(CommandSender sender, List<String> commands, boolean isSuccess) {
         commands.forEach(cmd -> run(sender, cmd, isSuccess));
     }
