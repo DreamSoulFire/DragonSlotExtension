@@ -56,6 +56,26 @@ public class CommandUtil {
     }
 
     /**
+     * 为玩家执行指令
+     * @param player 玩家
+     * @param commands 指令列表
+     */
+    public static void run(Player player, List<String> commands) {
+        commands.forEach(cmd -> {
+            if (!cmd.contains("<->")) {
+                TextUtil.sendMessage(DragonSlotExtension.message.fileError);
+                return;
+            }
+            String[] cmdSplit = cmd.split("<->");
+            if (cmdSplit.length != 2) {
+                TextUtil.sendMessage(DragonSlotExtension.message.fileError);
+                return;
+            }
+            CommandUtil.run(player, cmdSplit);
+        });
+    }
+
+    /**
      * 运行指令
      * @param sender 玩家
      * @param commands 指令

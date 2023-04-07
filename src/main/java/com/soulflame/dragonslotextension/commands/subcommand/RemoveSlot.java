@@ -17,7 +17,8 @@ public class RemoveSlot extends CommandBase {
     @Override
     public void onPlayerCommand(Player player, String[] args) {
         Player target = Bukkit.getPlayer(args[0]);
-        if (player == null) {
+        if (target == null) {
+            TextUtil.sendMessage(player, DragonSlotExtension.message.playerOffline);
             return;
         }
         SlotUtil.removeSlot(player, target, args[1]);

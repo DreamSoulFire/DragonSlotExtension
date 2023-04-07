@@ -5,7 +5,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 
-public class EquipChanceGui extends FileManager {
+public class EquipGui extends FileManager {
 
     public String match;
 
@@ -15,7 +15,7 @@ public class EquipChanceGui extends FileManager {
      * @param folder 配置文件夹
      * @param name   配置文件名
      */
-    public EquipChanceGui(File folder, String name) {
+    public EquipGui(File folder, String name) {
         super(folder, name);
     }
 

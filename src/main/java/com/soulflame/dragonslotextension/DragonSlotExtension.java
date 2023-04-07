@@ -6,6 +6,7 @@ import com.soulflame.dragonslotextension.hook.DragonCoreHook;
 import com.soulflame.dragonslotextension.hook.PAPIHook;
 import com.soulflame.dragonslotextension.listener.equip.EquipChanceGui;
 import com.soulflame.dragonslotextension.listener.equip.EquipChanceNormal;
+import com.soulflame.dragonslotextension.listener.equip.EquipCommand;
 import com.soulflame.dragonslotextension.listener.mapping.AntiAction;
 import com.soulflame.dragonslotextension.listener.mapping.EquipItem;
 import com.soulflame.dragonslotextension.listener.swap.SwapItem;
@@ -21,7 +22,8 @@ public class DragonSlotExtension extends JavaPlugin {
     private static DragonSlotExtension plugin;
     public static ConfigFile config;
     public static EquipChance equipChance;
-    public static com.soulflame.dragonslotextension.filemanager.config.EquipChanceGui equipChanceGui;
+    public static EquipSlotCmd equipCommand;
+    public static EquipGui equipChanceGui;
     public static MappingSlot mappingSlot;
     public static Message message;
     public static SwapSlot swapSlot;
@@ -34,17 +36,19 @@ public class DragonSlotExtension extends JavaPlugin {
         File folder = plugin.getDataFolder();
         config = new ConfigFile(folder, "config.yml");
         equipChance = new EquipChance(folder, "modules/equip-chance.yml");
-        equipChanceGui = new com.soulflame.dragonslotextension.filemanager.config.EquipChanceGui(folder, "gui/equip-chance-gui.yml");
+        equipCommand = new EquipSlotCmd(folder, "modules/equip-command.yml");
+        equipChanceGui = new EquipGui(folder, "gui/equip-chance-gui.yml");
         mappingSlot = new MappingSlot(folder, "modules/mapping.yml");
         message = new Message(folder, "message.yml");
         swapSlot = new SwapSlot(folder, "modules/swap.yml");
     }
 
     private void registerEvents() {
+        Bukkit.getPluginManager().registerEvents(new EquipCommand(), this);
         Bukkit.getPluginManager().registerEvents(new EquipChanceGui(), this);
+        Bukkit.getPluginManager().registerEvents(new EquipChanceNormal(), this);
         Bukkit.getPluginManager().registerEvents(new AntiAction(), this);
         Bukkit.getPluginManager().registerEvents(new EquipItem(), this);
-        Bukkit.getPluginManager().registerEvents(new EquipChanceNormal(), this);
         Bukkit.getPluginManager().registerEvents(new SwapItem(), this);
     }
 

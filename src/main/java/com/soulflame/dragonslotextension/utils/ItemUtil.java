@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -72,7 +73,16 @@ public class ItemUtil {
     public static void addCheckLore(ItemStack itemStack, List<String> lores) {
         ItemMeta meta = itemStack.getItemMeta();
         if (meta == null) return;
-        if (!meta.hasLore()) return;
+        if (!meta.hasLore()) {
+            List<String> line = new ArrayList<>();
+            for (String lore : lores) {
+                lore = TextUtil.replaceColor(lore);
+                line.add(lore);
+            }
+            meta.setLore(line);
+            itemStack.setItemMeta(meta);
+            return;
+        }
         if (isTrueItem(itemStack)) return;
         List<String> line = meta.getLore();
         for (String lore : lores) {
