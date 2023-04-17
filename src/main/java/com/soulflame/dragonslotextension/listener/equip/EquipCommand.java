@@ -25,38 +25,61 @@ public class EquipCommand implements Listener {
         if (itemStack == null || Material.AIR.equals(itemStack.getType())) return;
         ItemMeta itemMeta = itemStack.getItemMeta();
         Map<String, EquipSlotCmdData> map = DragonSlotExtension.equipCommand.map;
-        map.keySet().forEach(k->{
-            EquipSlotCmdData data = map.get(k);
+        for (String key : map.keySet()) {
+            EquipSlotCmdData data = map.get(key);
             List<String> commands = data.getCommands();
-            List<String> slots = data.getSlots();
-            slots.forEach(s -> {
-                if (!identifier.equalsIgnoreCase(s)) return;
-                String check = data.getCheck();
-                if (!check.contains("<->")) {
-                    TextUtil.sendMessage(DragonSlotExtension.message.fileError);
-                    return;
+            List<String> check = data.getCheck();
+            if (!check(identifier, itemMeta, check)) continue;
+            CommandUtil.run(player, commands);
+        }
+    }
+
+    private static boolean check(String identifier, ItemMeta itemMeta, List<String> check) {
+        boolean isMatch = false;
+        for (String list : check) {
+            if (!list.contains("<->")) {
+                TextUtil.sendMessage(DragonSlotExtension.message.fileError);
+                isMatch = false;
+                continue;
+            }
+            String[] split = list.split("<->");
+            if (split.length != 3) {
+                TextUtil.sendMessage(DragonSlotExtension.message.fileError);
+                isMatch = false;
+                continue;
+            }
+            if (!identifier.equalsIgnoreCase(split[0])) {
+                isMatch = false;
+                continue;
+            }
+            if ("name".equalsIgnoreCase(split[1])) {
+                String displayName = itemMeta.getDisplayName();
+                if (displayName == null) {
+                    isMatch = false;
+                    continue;
                 }
-                String[] split = check.split("<->");
-                if (split.length != 2) {
-                    TextUtil.sendMessage(DragonSlotExtension.message.fileError);
-                    return;
+                if (!displayName.contains(split[2]) && !displayName.equalsIgnoreCase(split[2])) {
+                    isMatch = false;
+                    continue;
                 }
-                if ("name".equalsIgnoreCase(split[0])) {
-                    String displayName = itemMeta.getDisplayName();
-                    if (displayName == null) return;
-                    if (!displayName.contains(split[1])) return;
-                    CommandUtil.run(player, commands);
+                isMatch = true;
+            }
+            if ("lore".equalsIgnoreCase(split[1])) {
+                List<String> lore = itemMeta.getLore();
+                if (lore == null) {
+                    isMatch = false;
+                    continue;
                 }
-                if ("lore".equalsIgnoreCase(split[0])) {
-                    List<String> lore = itemMeta.getLore();
-                    if (lore == null) return;
-                    for (String line : lore) {
-                     if (!line.contains(split[1]) && !line.equalsIgnoreCase(split[1])) continue;
-                     CommandUtil.run(player, commands);
+                for (String line : lore) {
+                    if (!line.contains(split[2]) && !line.equalsIgnoreCase(split[2])) {
+                        isMatch = false;
+                        continue;
                     }
+                    isMatch = true;
                 }
-            });
-        });
+            }
+        }
+        return isMatch;
     }
 
 }

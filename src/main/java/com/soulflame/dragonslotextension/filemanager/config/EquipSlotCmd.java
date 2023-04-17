@@ -31,10 +31,9 @@ public class EquipSlotCmd extends FileManager {
         ConfigurationSection keys = yaml.getConfigurationSection("");
         keys.getKeys(false).forEach(key -> {
             ConfigurationSection section = keys.getConfigurationSection(key);
-            String check = section.getString("check", "");
-            List<String> slots = section.getStringList("slot");
+            List<String> check = section.getStringList("check");
             List<String> commands = section.getStringList("commands");
-            EquipSlotCmdData data = new EquipSlotCmdData(check, slots, commands);
+            EquipSlotCmdData data = new EquipSlotCmdData(check, commands);
             map.put(key, data);
         });
     }

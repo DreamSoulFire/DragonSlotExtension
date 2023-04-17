@@ -2,8 +2,6 @@ package com.soulflame.dragonslotextension;
 
 import com.soulflame.dragonslotextension.commands.MainCommand;
 import com.soulflame.dragonslotextension.filemanager.config.*;
-import com.soulflame.dragonslotextension.hook.DragonCoreHook;
-import com.soulflame.dragonslotextension.hook.PAPIHook;
 import com.soulflame.dragonslotextension.listener.equip.EquipChanceGui;
 import com.soulflame.dragonslotextension.listener.equip.EquipChanceNormal;
 import com.soulflame.dragonslotextension.listener.equip.EquipCommand;
@@ -32,7 +30,7 @@ public class DragonSlotExtension extends JavaPlugin {
         return plugin;
     }
 
-    public static void saveAllConfig() {
+    public void saveAllConfig() {
         File folder = plugin.getDataFolder();
         config = new ConfigFile(folder, "config.yml");
         equipChance = new EquipChance(folder, "modules/equip-chance.yml");
@@ -52,14 +50,19 @@ public class DragonSlotExtension extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new SwapItem(), this);
     }
 
+    private void hook() {
+        new Hooker("PlaceholderAPI");
+        new Hooker("DragonCore");
+    }
+
     @Override
     public void onEnable() {
         plugin = this;
         long start = System.currentTimeMillis();
         TextUtil.sendNoPrefixMessage("&b====================================================");
         TextUtil.sendMessage("&a插件已启动, 开始构建插件");
+        hook();
         saveAllConfig();
-        if (!DragonCoreHook.hook() || !PAPIHook.hook()) return;
         TextUtil.sendMessage("&6开始注册事件");
         registerEvents();
         TextUtil.sendMessage("&6开始注册指令");

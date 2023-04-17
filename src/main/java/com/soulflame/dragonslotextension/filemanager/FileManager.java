@@ -2,6 +2,7 @@ package com.soulflame.dragonslotextension.filemanager;
 
 import com.soulflame.dragonslotextension.DragonSlotExtension;
 import com.soulflame.dragonslotextension.utils.TextUtil;
+import lombok.Getter;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -10,13 +11,10 @@ import java.io.IOException;
 
 public abstract class FileManager implements FileBase {
 
+    @Getter
     private File file;
+    @Getter
     private YamlConfiguration yaml;
-    private final String name;
-
-    public String getName() {
-        return name;
-    }
 
     /**
      * 读取配置文件
@@ -24,26 +22,7 @@ public abstract class FileManager implements FileBase {
      * @param name 配置文件名
      */
     public FileManager(File folder, String name) {
-        this.name = name;
         reload(folder, name);
-    }
-
-    /**
-     * 获取配置文件的yaml
-     * @return yaml
-     */
-    @Override
-    public YamlConfiguration getYaml() {
-        return yaml;
-    }
-
-    /**
-     * 获取配置文件
-     * @return file
-     */
-    @Override
-    public File getFile() {
-        return file;
     }
 
     /**
@@ -54,9 +33,9 @@ public abstract class FileManager implements FileBase {
     @Override
     public void create(File folder, String name) {
         file = new File(folder, name);
-        if (file.exists()) TextUtil.sendMessage("&a已检测到 " + getName() + " 文件");
+        if (file.exists()) TextUtil.sendMessage("&a已检测到 " + name + " 文件");
         else {
-            TextUtil.sendMessage("&4未检测到 " + getName() + " 文件,正在生成...");
+            TextUtil.sendMessage("&4未检测到 " + name + " 文件,正在生成...");
             DragonSlotExtension.getPlugin().saveResource(name, false);
         }
         yaml = new YamlConfiguration();

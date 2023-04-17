@@ -11,18 +11,18 @@ import org.bukkit.entity.Player;
 public class ChangeSlot extends CommandBase {
     @Override
     public void onConsoleCommand(CommandSender sender, String[] args) {
-        TextUtil.sendMessage(sender, DragonSlotExtension.message.cantUseInConsole);
+        Player player = Bukkit.getPlayer(args[0]);
+        if (player == null) {
+            TextUtil.sendMessage(sender, DragonSlotExtension.message.playerOffline);
+            return;
+        }
+        SlotUtil.changeSlot(player, args[1], args[2]);
+        TextUtil.sendMessage(sender, DragonSlotExtension.message.slotItemChange);
     }
 
     @Override
     public void onPlayerCommand(Player player, String[] args) {
-        Player target = Bukkit.getPlayer(args[0]);
-        if (target == null) {
-            TextUtil.sendMessage(player, DragonSlotExtension.message.playerOffline);
-            return;
-        }
-        SlotUtil.changeSlot(player, args[1], args[2]);
-        TextUtil.sendMessage(player, DragonSlotExtension.message.slotItemChange);
+        onConsoleCommand(player, args);
     }
 
     @Override

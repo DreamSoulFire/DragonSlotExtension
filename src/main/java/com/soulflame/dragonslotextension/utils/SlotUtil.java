@@ -4,6 +4,7 @@ import com.soulflame.dragonslotextension.DragonSlotExtension;
 import eos.moe.dragoncore.api.SlotAPI;
 import eos.moe.dragoncore.database.IDataBase;
 import org.bukkit.Material;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -116,16 +117,16 @@ public class SlotUtil {
 
     /**
      * 移除玩家槽位上的物品
-     * @param player 发送信息的玩家
+     * @param sender 发送信息的玩家
      * @param target 移除槽位的玩家
      * @param slot 龙核槽位
      */
-    public static void removeSlot(Player player, Player target, String slot) {
+    public static void removeSlot(CommandSender sender, Player target, String slot) {
         SlotAPI.getSlotItem(target, slot, new IDataBase.Callback<ItemStack>() {
             @Override
             public void onResult(ItemStack item) {
                 if (item == null || Material.AIR.equals(item.getType())) {
-                    TextUtil.sendMessage(player, DragonSlotExtension.message.slotItemAir);
+                    TextUtil.sendMessage(sender, DragonSlotExtension.message.slotItemAir);
                     return;
                 }
                 String slotItemRemove = DragonSlotExtension.message.slotItemRemove;
@@ -137,12 +138,12 @@ public class SlotUtil {
                     slotItemRemove = slotItemRemove.replace("<item>", meta.getLocalizedName());
                 item.setType(Material.AIR);
                 SlotAPI.setSlotItem(target, slot, item, true);
-                TextUtil.sendMessage(player, slotItemRemove);
+                TextUtil.sendMessage(sender, slotItemRemove);
             }
 
             @Override
             public void onFail() {
-                TextUtil.sendMessage(player, DragonSlotExtension.message.itemError);
+                TextUtil.sendMessage(sender, DragonSlotExtension.message.itemError);
             }
         });
     }

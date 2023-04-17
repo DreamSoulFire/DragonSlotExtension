@@ -11,17 +11,17 @@ import org.bukkit.entity.Player;
 public class RemoveSlot extends CommandBase {
     @Override
     public void onConsoleCommand(CommandSender sender, String[] args) {
-        TextUtil.sendMessage(sender, DragonSlotExtension.message.cantUseInConsole);
+        Player player = Bukkit.getPlayer(args[0]);
+        if (player == null) {
+            TextUtil.sendMessage(sender, DragonSlotExtension.message.playerOffline);
+            return;
+        }
+        SlotUtil.removeSlot(sender, player, args[1]);
     }
 
     @Override
     public void onPlayerCommand(Player player, String[] args) {
-        Player target = Bukkit.getPlayer(args[0]);
-        if (target == null) {
-            TextUtil.sendMessage(player, DragonSlotExtension.message.playerOffline);
-            return;
-        }
-        SlotUtil.removeSlot(player, target, args[1]);
+        onConsoleCommand(player, args);
     }
 
     @Override

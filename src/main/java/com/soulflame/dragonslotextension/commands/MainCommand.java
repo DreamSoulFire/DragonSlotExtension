@@ -24,6 +24,7 @@ public class MainCommand implements TabExecutor {
         registerCommand(new Clear());
         registerCommand(new GetSlot());
         registerCommand(new Help());
+        registerCommand(new Multi());
         registerCommand(new Open());
         registerCommand(new Reload());
         registerCommand(new RemoveSlot());
@@ -49,8 +50,8 @@ public class MainCommand implements TabExecutor {
                 TextUtil.sendMessage(sender, perm);
             } else if (commandBase.getLength() > args.length) {
                 String error = message.commandError;
-                error = error.replace("<command>", commandBase.getCommand());
-                TextUtil.sendMessage(sender, error + commandBase.getCommandDesc());
+                error = error.replace("<command>", commandBase.getCommandDesc());
+                TextUtil.sendMessage(sender, error);
             } else {
                 String[] strings = Arrays.copyOfRange(args, 1, args.length);
                 if (!(sender instanceof Player)) {
