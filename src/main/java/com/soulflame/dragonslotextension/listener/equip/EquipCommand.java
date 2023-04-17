@@ -30,7 +30,7 @@ public class EquipCommand implements Listener {
             List<String> commands = data.getCommands();
             List<String> check = data.getCheck();
             if (!check(identifier, itemMeta, check)) continue;
-            CommandUtil.run(player, commands);
+            CommandUtil.run(player, commands, itemStack.getAmount());
         }
     }
 

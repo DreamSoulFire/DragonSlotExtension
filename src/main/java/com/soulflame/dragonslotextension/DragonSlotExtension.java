@@ -23,7 +23,7 @@ public class DragonSlotExtension extends JavaPlugin {
     public static EquipSlotCmd equipCommand;
     public static EquipGui equipChanceGui;
     public static MappingSlot mappingSlot;
-    public static Message message;
+    public static MessageFile message;
     public static SwapSlot swapSlot;
 
     public static DragonSlotExtension getPlugin() {
@@ -37,7 +37,7 @@ public class DragonSlotExtension extends JavaPlugin {
         equipCommand = new EquipSlotCmd(folder, "modules/equip-command.yml");
         equipChanceGui = new EquipGui(folder, "gui/equip-chance-gui.yml");
         mappingSlot = new MappingSlot(folder, "modules/mapping.yml");
-        message = new Message(folder, "message.yml");
+        message = new MessageFile(folder, "message.yml");
         swapSlot = new SwapSlot(folder, "modules/swap.yml");
     }
 

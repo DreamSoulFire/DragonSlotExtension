@@ -1,7 +1,7 @@
 package com.soulflame.dragonslotextension.listener.mapping;
 
 import com.soulflame.dragonslotextension.DragonSlotExtension;
-import com.soulflame.dragonslotextension.filemanager.config.Message;
+import com.soulflame.dragonslotextension.filemanager.config.MessageFile;
 import com.soulflame.dragonslotextension.utils.ItemUtil;
 import com.soulflame.dragonslotextension.utils.TextUtil;
 import org.bukkit.entity.HumanEntity;
@@ -21,7 +21,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 public class AntiAction implements Listener {
-    private final Message message = DragonSlotExtension.message;
+    private final MessageFile message = DragonSlotExtension.message;
 
     /**
      * 玩家丢弃物品事件

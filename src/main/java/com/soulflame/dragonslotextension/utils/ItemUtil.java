@@ -3,7 +3,7 @@ package com.soulflame.dragonslotextension.utils;
 import com.soulflame.dragonslotextension.DragonSlotExtension;
 import com.soulflame.dragonslotextension.filemanager.config.EquipChance;
 import com.soulflame.dragonslotextension.filemanager.config.MappingSlot;
-import com.soulflame.dragonslotextension.filemanager.config.Message;
+import com.soulflame.dragonslotextension.filemanager.config.MessageFile;
 import com.soulflame.dragonslotextension.filemanager.entity.EquipChanceData;
 import com.soulflame.dragonslotextension.filemanager.entity.MappingData;
 import eos.moe.dragoncore.api.SlotAPI;
@@ -23,7 +23,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ItemUtil {
-    private static final Message message = DragonSlotExtension.message;
+    private static final MessageFile message = DragonSlotExtension.message;
     private static final MappingSlot mapping = DragonSlotExtension.mappingSlot;
 
     /**
@@ -127,7 +127,7 @@ public class ItemUtil {
     public static void checkItem(Player player, ItemStack item, ItemStack addItem, String text, String value) {
         if (!text.contains(value) && !text.equalsIgnoreCase(value)) return;
         item.setAmount(item.getAmount() - 1);
-        TextUtil.sendMessage(player, message.saveEquipItem);
+        TextUtil.sendMessage(player, message.equipSave);
         player.getInventory().addItem(addItem);
     }
 
@@ -152,7 +152,7 @@ public class ItemUtil {
             PlayerInventory inventory = player.getInventory();
             if ("permission".equalsIgnoreCase(split[0])) {
                 if (!player.hasPermission(split[1])) continue;
-                TextUtil.sendMessage(player, message.saveEquipItem);
+                TextUtil.sendMessage(player, message.equipSave);
                 inventory.addItem(item);
                 break;
             }

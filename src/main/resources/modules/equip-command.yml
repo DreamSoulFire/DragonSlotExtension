@@ -9,5 +9,7 @@
     - '额外槽位1<->name<->VIP物品'
     - '额外槽位2<->name<->VIP物品2'
   #执行的指令
+  #支持物品数量
+  #变量 <amount>
   commands:
     - 'console<->say 你放入了一个物品'

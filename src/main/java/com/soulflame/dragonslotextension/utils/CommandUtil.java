@@ -60,8 +60,9 @@ public class CommandUtil {
      * @param player 玩家
      * @param commands 指令列表
      */
-    public static void run(Player player, List<String> commands) {
+    public static void run(Player player, List<String> commands, int amount) {
         commands.forEach(cmd -> {
+            cmd = cmd.replace("<amout>", String.valueOf(amount));
             if (!cmd.contains("<->")) {
                 TextUtil.sendMessage(DragonSlotExtension.message.fileError);
                 return;

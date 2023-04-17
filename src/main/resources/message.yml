@@ -1,79 +1,56 @@
-#插件前缀
 prefix: '&7[&6Dragon&bSlot&eExtension&7] '
-#插件帮助
-help:
-  - '&f/dse help  &a插件帮助'
-  - '&f/dse change 玩家 槽位1 槽位2  &a交换玩家槽位1与槽位2上的物品'
-  - '&f/dse clear 玩家  &a清除玩家身上的错误物品'
-  - '&f/dse get 玩家 槽位 是否拿取  &a获得玩家槽位上的物品'
-  - '&f/dse multi 玩家 槽位 倍数 概率(整数, 1就是百分之一的概率) 失败是否清除(true/false)  &a将玩家槽位上的物品翻倍'
-  - '&f/dse open 玩家  &a打开物品装备界面'
-  - '&f/dse reload  &a重载插件'
-  - '&f/dse remove 玩家 槽位  &a删除玩家槽位上的物品'
-  - '&f/dse set 玩家 槽位 是否强制设置 是否拿取手上物品  &a将玩家槽位上的物品设置为手上的物品'
-#指令不存在
-no-child-command: '&c该指令不存在: <command>'
-#没有权限
-dont-have-permission: '&c执行该指令需要权限: <permission>'
-#参数错误/不完整
-command-args-error: '&c指令参数错误或不完整,请检查是否输错了指令: <command>'
-#控制台不可执行
-cant-use-in-console: '&c后台无法执行该指令'
-#无法拿起物品
-cant-take: '&4你无法拿取此物品'
-#无法切换到物品
-cant-swap: '&4你无法切换到此物品栏'
-#无法丢弃物品
-cant-drop: '&4你无法丢弃此物品'
-#无法快速移动物品
-cant-fast-move: '&4你无法快速移动物品'
-#无法切换副手
-cant-swap-hand: '&4你无法切换此物品到主副手'
-#物品获取失败
-get-item-error: '&4物品获取失败, 请检查配置是否出错'
-#身上存在违规物品:
-have-error-item: '&4身上存在违规物品, 已清除'
-#玩家不在线
-player-not-online: '&c该玩家不在线, 无法执行指令'
-#装备成功
-equip-success: '&a你成功装备了 <item>'
-#装备失败
-equip-fail: '&c装备失败, 物品 <item> 已被销毁'
-#保护装备
-equip-save: '&a已保留装备, 保护符已扣除'
-#无要装备的物品
-equip-none: '&c请放入要装备的物品'
-#拆卸提示
-take-notice: '&c请在 <time> 秒内, 连续点击两次以拆卸物品'
-#槽位物品为空
-slot-item-air: '&c该槽位物品为空'
-#槽位物品不为空
-slot-item-not-air: '&c该槽位物品不为空'
-#获取槽位物品
-slot-item-get: '&a你得到了玩家 <target> 的 <slot> 里的物品 <item> * <amount>'
-#设置槽位物品
-slot-item-set: '&a你成功将手上的物品设置到 <slot>'
-#交换槽位物品
-slot-item-change: '&a你成功交换了物品'
-#移除槽位物品
-slot-item-remove: '&a你成功移除了 <slot> 上的 <item>'
-#成功使用交换方案
+command:
+  help:
+    - '&f/dse help  &a插件帮助'
+    - '&f/dse change 玩家 槽位1 槽位2  &a交换玩家槽位1与槽位2上的物品'
+    - '&f/dse clear 玩家  &a清除玩家身上的错误物品'
+    - '&f/dse get 玩家 槽位 是否拿取  &a获得玩家槽位上的物品'
+    - '&f/dse multi 玩家 槽位 倍数 概率(整数, 1就是百分之一的概率) 失败是否清除(true/false)  &a将玩家槽位上的物品翻倍'
+    - '&f/dse open 玩家  &a打开物品装备界面'
+    - '&f/dse reload  &a重载插件'
+    - '&f/dse remove 玩家 槽位  &a删除玩家槽位上的物品'
+    - '&f/dse set 玩家 槽位 是否强制设置 是否拿取手上物品  &a将玩家槽位上的物品设置为手上的物品'
+  no-child-command: '&c该指令不存在: <command>'
+  dont-have-permission: '&c执行该指令需要权限: <permission>'
+  command-args-error: '&c指令参数错误或不完整,请检查是否输错了指令: <command>'
+  cant-use-in-console: '&c后台无法执行该指令'
+  player-not-online: '&c该玩家不在线, 无法执行指令'
+  file-error: '&c配置出错, 请排查错误'
+  reload: '&a插件重载成功'
+multi:
+  success: '&a物品翻倍成功'
+  fail: '&c物品翻倍失败'
+  clear: '&c已销毁物品'
+  over: '&c物品数量大于127, 无法翻倍'
+cant:
+  take: '&4你无法拿取此物品'
+  swap: '&4你无法切换到此物品栏'
+  drop: '&4你无法丢弃此物品'
+  fast-move: '&4你无法快速移动物品'
+  swap-hand: '&4你无法切换此物品到主副手'
+item:
+  get-error: '&4物品获取失败, 请检查配置是否出错'
+  have-error: '&4身上存在违规物品, 已清除'
+  equip:
+    success: '&a你成功装备了 <item>'
+    fail: '&c装备失败, 物品 <item> 已被销毁'
+    save: '&a已保留装备, 保护符已扣除'
+    none: '&c请放入要装备的物品'
+  take: '&c请在 <time> 秒内, 连续点击两次以拆卸物品'
+  air: '&c该槽位物品为空'
+  not-air: '&c该槽位物品不为空'
+  in-hand-air: '&c你手上没有任何物品'
+slot:
+  get: '&a你得到了玩家 <target> 的 <slot> 里的物品 <item> * <amount>'
+  set: '&a你成功将手上的物品设置到 <slot>'
+  change: '&a你成功交换了物品'
+  remove: '&a你成功移除了 <slot> 上的 <item>'
 swap-item: '&a你成功使用了交换方案&f: &b<plan>'
-#手上没有物品
-item-in-hand-air: '&c你手上没有任何物品'
-#配置出错
-file-error: '&c配置出错, 请排查错误'
-#开启debug后
 debug-format:
-  #映射的debug功能
   mapping: '&6你点击了&f: &b<id>'
-  #装备几率的debug功能
   equip-chance:
     - '&6物品几率&f: &b<chance>'
     - '&6随机几率&f: &b<random>'
     - '&e当物品几率大于等于随机几率时'
     - '&a装备成功 &c反之失败'
-  #槽位交换的debug功能
   swap-item: '&6你按下了按键&f: &b<key>'
-#重载插件
-reload: '&a插件重载成功'

@@ -1,7 +1,7 @@
 package com.soulflame.dragonslotextension.listener.mapping;
 
 import com.soulflame.dragonslotextension.DragonSlotExtension;
-import com.soulflame.dragonslotextension.filemanager.config.Message;
+import com.soulflame.dragonslotextension.filemanager.config.MessageFile;
 import com.soulflame.dragonslotextension.filemanager.entity.MappingData;
 import com.soulflame.dragonslotextension.utils.ItemUtil;
 import com.soulflame.dragonslotextension.utils.TextUtil;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 public class EquipItem implements Listener {
-    private final Message message = DragonSlotExtension.message;
+    private final MessageFile message = DragonSlotExtension.message;
     @EventHandler
     public void clickSlot(CustomPacketEvent event) {
         Player player = event.getPlayer();

@@ -3,7 +3,7 @@ package com.soulflame.dragonslotextension.commands;
 import com.google.common.collect.Maps;
 import com.soulflame.dragonslotextension.DragonSlotExtension;
 import com.soulflame.dragonslotextension.commands.subcommand.*;
-import com.soulflame.dragonslotextension.filemanager.config.Message;
+import com.soulflame.dragonslotextension.filemanager.config.MessageFile;
 import com.soulflame.dragonslotextension.utils.TextUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -37,19 +37,19 @@ public class MainCommand implements TabExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        Message message = DragonSlotExtension.message;
+        MessageFile message = DragonSlotExtension.message;
         if (args.length > 0) {
             CommandBase commandBase = commandMap.get(args[0].toLowerCase());
             if (commandBase == null) {
-                String noChild = message.noChildCommand;
+                String noChild = message.getYaml().getString("command.no-child-command", "&c该指令不存在: <command>");
                 noChild = noChild.replace("<command>", args[0]);
                 TextUtil.sendMessage(sender, noChild);
             } else if (!sender.hasPermission(commandBase.getPermission())) {
-                String perm = message.dontHavePermission;
+                String perm = message.getYaml().getString("command.dont-have-permission", "&c执行该指令需要权限: <permission>");
                 perm = perm.replace("<permission>", commandBase.getPermission());
                 TextUtil.sendMessage(sender, perm);
             } else if (commandBase.getLength() > args.length) {
-                String error = message.commandError;
+                String error = message.getYaml().getString("command.command-args-error", "&c指令参数错误或不完整,请检查是否输错了指令: <command>");
                 error = error.replace("<command>", commandBase.getCommandDesc());
                 TextUtil.sendMessage(sender, error);
             } else {
