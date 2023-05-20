@@ -5,8 +5,6 @@ import com.soulflame.dragonslotextension.filemanager.config.*;
 import com.soulflame.dragonslotextension.listener.equip.EquipChanceGui;
 import com.soulflame.dragonslotextension.listener.equip.EquipChanceNormal;
 import com.soulflame.dragonslotextension.listener.equip.EquipCommand;
-import com.soulflame.dragonslotextension.listener.mapping.AntiAction;
-import com.soulflame.dragonslotextension.listener.mapping.EquipItem;
 import com.soulflame.dragonslotextension.listener.swap.SwapItem;
 import com.soulflame.dragonslotextension.utils.TextUtil;
 import org.bukkit.Bukkit;
@@ -22,7 +20,6 @@ public class DragonSlotExtension extends JavaPlugin {
     public static EquipChance equipChance;
     public static EquipSlotCmd equipCommand;
     public static EquipGui equipChanceGui;
-    public static MappingSlot mappingSlot;
     public static MessageFile message;
     public static SwapSlot swapSlot;
 
@@ -36,7 +33,6 @@ public class DragonSlotExtension extends JavaPlugin {
         equipChance = new EquipChance(folder, "modules/equip-chance.yml");
         equipCommand = new EquipSlotCmd(folder, "modules/equip-command.yml");
         equipChanceGui = new EquipGui(folder, "gui/equip-chance-gui.yml");
-        mappingSlot = new MappingSlot(folder, "modules/mapping.yml");
         message = new MessageFile(folder, "message.yml");
         swapSlot = new SwapSlot(folder, "modules/swap.yml");
     }
@@ -45,8 +41,6 @@ public class DragonSlotExtension extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new EquipCommand(), this);
         Bukkit.getPluginManager().registerEvents(new EquipChanceGui(), this);
         Bukkit.getPluginManager().registerEvents(new EquipChanceNormal(), this);
-        Bukkit.getPluginManager().registerEvents(new AntiAction(), this);
-        Bukkit.getPluginManager().registerEvents(new EquipItem(), this);
         Bukkit.getPluginManager().registerEvents(new SwapItem(), this);
     }
 

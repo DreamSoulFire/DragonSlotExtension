@@ -80,14 +80,4 @@ public class TextUtil {
         return message;
     }
 
-    /**
-     * 替换原版数字id
-     * @param message 信息
-     * @param id 数字id
-     * @return message
-     */
-    public static String replaceId(String message, int id) {
-        message = message.replace("<id>", String.valueOf(id));
-        return message;
-    }
 }

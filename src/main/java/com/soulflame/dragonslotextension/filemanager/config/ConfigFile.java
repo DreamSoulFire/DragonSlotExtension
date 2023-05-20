@@ -7,7 +7,6 @@ import java.io.File;
 import java.util.List;
 
 public class ConfigFile extends FileManager {
-    public boolean debugMapping;
     public boolean debugEquipChance;
     public boolean debugSwapItem;
     public String equipMode;
@@ -22,7 +21,6 @@ public class ConfigFile extends FileManager {
     @Override
     protected void loadData() {
         YamlConfiguration yaml = getYaml();
-        debugMapping = yaml.getBoolean("debug.mapping", false);
         debugEquipChance = yaml.getBoolean("debug.equip-chance", false);
         debugSwapItem = yaml.getBoolean("debug.swap-slot", false);
         equipMode = yaml.getString("global-setting.equip-chance.mode", "normal");

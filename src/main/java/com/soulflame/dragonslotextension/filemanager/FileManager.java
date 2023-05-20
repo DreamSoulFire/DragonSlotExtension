@@ -3,11 +3,9 @@ package com.soulflame.dragonslotextension.filemanager;
 import com.soulflame.dragonslotextension.DragonSlotExtension;
 import com.soulflame.dragonslotextension.utils.TextUtil;
 import lombok.Getter;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
-import java.io.IOException;
 
 public abstract class FileManager implements FileBase {
 
@@ -38,12 +36,7 @@ public abstract class FileManager implements FileBase {
             TextUtil.sendMessage("&4未检测到 " + name + " 文件,正在生成...");
             DragonSlotExtension.getPlugin().saveResource(name, false);
         }
-        yaml = new YamlConfiguration();
-        try {
-            yaml.load(getFile());
-        } catch (IOException | InvalidConfigurationException e) {
-            throw new RuntimeException(e);
-        }
+        yaml = YamlConfiguration.loadConfiguration(file);
     }
 
     /**

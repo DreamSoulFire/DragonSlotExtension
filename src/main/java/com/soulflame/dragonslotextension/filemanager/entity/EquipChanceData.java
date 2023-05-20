@@ -1,21 +1,18 @@
 package com.soulflame.dragonslotextension.filemanager.entity;
 
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import java.util.List;
 
+@Data
+@AllArgsConstructor
 public class EquipChanceData {
 
-    @Getter
     private final String identifier;
-    @Getter
+
     private final List<String> slotList;
-    @Getter
+
     private final List<String> commands;
 
-    public EquipChanceData(String identifier, List<String> slotList, List<String> commands) {
-        this.identifier = identifier;
-        this. slotList = slotList;
-        this.commands = commands;
-    }
 }

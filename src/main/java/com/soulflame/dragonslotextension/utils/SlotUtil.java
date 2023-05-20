@@ -38,11 +38,11 @@ public class SlotUtil {
         if (!meta.hasDisplayName()) return;
         String name = meta.getDisplayName();
         int amount = item[0].getAmount();
-        String slotItemGet = DragonSlotExtension.message.slotItemGet;
-        slotItemGet = slotItemGet.replace("target", target.getName());
-        slotItemGet = slotItemGet.replace("<item>", name);
-        slotItemGet = slotItemGet.replace("amount", String.valueOf(amount));
-        slotItemGet = slotItemGet.replace("slot", slot);
+        String slotItemGet = DragonSlotExtension.message.slotItemGet
+                .replace("target", target.getName())
+                .replace("<item>", name)
+                .replace("amount", String.valueOf(amount))
+                .replace("slot", slot);
         TextUtil.sendMessage(player, slotItemGet);
     }
 
@@ -60,14 +60,12 @@ public class SlotUtil {
             TextUtil.sendMessage(player, DragonSlotExtension.message.itemInHandAir);
             return;
         }
-        String slotItemSet = DragonSlotExtension.message.slotItemSet;
-        slotItemSet = slotItemSet.replace("<slot>", slot);
+        String slotItemSet = DragonSlotExtension.message.slotItemSet.replace("<slot>", slot);
         if (isForce) {
             SlotAPI.setSlotItem(target, slot, itemStack, true);
             TextUtil.sendMessage(player, slotItemSet);
             return;
         }
-        String finalSlotItemSet = slotItemSet;
         SlotAPI.getSlotItem(target, slot, new IDataBase.Callback<ItemStack>() {
             @Override
             public void onResult(ItemStack item) {
@@ -75,7 +73,7 @@ public class SlotUtil {
                     TextUtil.sendMessage(player, DragonSlotExtension.message.slotItemNotAir);
                     return;
                 }
-                TextUtil.sendMessage(player, finalSlotItemSet);
+                TextUtil.sendMessage(player, slotItemSet);
                 SlotAPI.setSlotItem(target, slot, itemStack, true);
             }
 
@@ -132,10 +130,9 @@ public class SlotUtil {
                 String slotItemRemove = DragonSlotExtension.message.slotItemRemove;
                 slotItemRemove = slotItemRemove.replace("<slot>", slot);
                 ItemMeta meta = item.getItemMeta();
-                if (meta.hasDisplayName())
-                    slotItemRemove = slotItemRemove.replace("<item>", meta.getDisplayName());
-                else
-                    slotItemRemove = slotItemRemove.replace("<item>", meta.getLocalizedName());
+                slotItemRemove = meta.hasDisplayName() ?
+                        slotItemRemove.replace("<item>", meta.getDisplayName()) :
+                        slotItemRemove.replace("<item>", meta.getLocalizedName());
                 item.setType(Material.AIR);
                 SlotAPI.setSlotItem(target, slot, item, true);
                 TextUtil.sendMessage(sender, slotItemRemove);

@@ -46,8 +46,8 @@ public class CommandUtil {
      */
     public static void run(CommandSender sender, String[] command) {
         switch (command.length) {
-            case 3:
             case 2:
+            case 3:
                 run(sender, command, command.length);
                 break;
             default:
@@ -62,7 +62,7 @@ public class CommandUtil {
      */
     public static void run(Player player, List<String> commands, int amount) {
         commands.forEach(cmd -> {
-            cmd = cmd.replace("<amout>", String.valueOf(amount));
+            cmd = cmd.replace("<amount>", String.valueOf(amount));
             if (!cmd.contains("<->")) {
                 TextUtil.sendMessage(DragonSlotExtension.message.fileError);
                 return;

@@ -3,7 +3,6 @@ command:
   help:
     - '&f/dse help  &a插件帮助'
     - '&f/dse change 玩家 槽位1 槽位2  &a交换玩家槽位1与槽位2上的物品'
-    - '&f/dse clear 玩家  &a清除玩家身上的错误物品'
     - '&f/dse get 玩家 槽位 是否拿取  &a获得玩家槽位上的物品'
     - '&f/dse multi 玩家 槽位 倍数 概率(整数, 1就是百分之一的概率) 失败是否清除(true/false)  &a将玩家槽位上的物品翻倍'
     - '&f/dse open 玩家  &a打开物品装备界面'
@@ -22,12 +21,6 @@ multi:
   fail: '&c物品翻倍失败'
   clear: '&c已销毁物品'
   over: '&c物品数量大于127, 无法翻倍'
-cant:
-  take: '&4你无法拿取此物品'
-  swap: '&4你无法切换到此物品栏'
-  drop: '&4你无法丢弃此物品'
-  fast-move: '&4你无法快速移动物品'
-  swap-hand: '&4你无法切换此物品到主副手'
 item:
   get-error: '&4物品获取失败, 请检查配置是否出错'
   have-error: '&4身上存在违规物品, 已清除'
@@ -47,7 +40,6 @@ slot:
   remove: '&a你成功移除了 <slot> 上的 <item>'
 swap-item: '&a你成功使用了交换方案&f: &b<plan>'
 debug-format:
-  mapping: '&6你点击了&f: &b<id>'
   equip-chance:
     - '&6物品几率&f: &b<chance>'
     - '&6随机几率&f: &b<random>'

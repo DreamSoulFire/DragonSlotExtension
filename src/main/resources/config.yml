@@ -1,8 +1,5 @@
 #debug功能
 debug:
-  #槽位映射的 debug
-  #开启后输出原版槽位
-  mapping: false
   #槽位切换
   swap-slot: false
   #槽位装备几率

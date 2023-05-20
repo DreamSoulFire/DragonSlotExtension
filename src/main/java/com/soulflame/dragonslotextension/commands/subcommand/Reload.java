@@ -17,7 +17,6 @@ public class Reload extends CommandBase {
         DragonSlotExtension.equipChance.reload(folder, "modules/equip-chance.yml");
         DragonSlotExtension.equipCommand.reload(folder, "modules/equip-command.yml");
         DragonSlotExtension.equipChanceGui.reload(folder, "gui/equip-chance-gui.yml");
-        DragonSlotExtension.mappingSlot.reload(folder, "modules/mapping.yml");
         DragonSlotExtension.message.reload(folder, "message.yml");
         DragonSlotExtension.swapSlot.reload(folder, "modules/swap.yml");
         TextUtil.sendMessage(sender, DragonSlotExtension.message.reload);

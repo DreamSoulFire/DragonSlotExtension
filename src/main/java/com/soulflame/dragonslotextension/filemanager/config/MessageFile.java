@@ -12,11 +12,6 @@ public class MessageFile extends FileManager {
     public String prefix;
     public List<String> help;
     public String cantUseInConsole;
-    public String cantTake;
-    public String cantSwap;
-    public String cantDrop;
-    public String cantFastMove;
-    public String cantSwapHand;
     public String itemError;
     public String haveErrorItem;
     public String equipSuccess;
@@ -34,7 +29,6 @@ public class MessageFile extends FileManager {
     public String swapItem;
     public String itemInHandAir;
     public String fileError;
-    public String debugMapping;
     public List<String> debugEquipChance;
     public String debugSwapItem;
     public String reload;
@@ -54,7 +48,6 @@ public class MessageFile extends FileManager {
         YamlConfiguration yaml = getYaml();
         prefix = yaml.getString("prefix", "&7[&6Dragon&bSlot&eExtension&7] ");
         swapItem = yaml.getString("swap-item", "&a你成功使用了交换方案&f: &b<plan>");
-        debugMapping = yaml.getString("debug-format.mapping", "&6你点击了&f: &b<id>");
         debugEquipChance = yaml.getStringList("debug-format.equip-chance");
         debugSwapItem = yaml.getString("debug-format.swap-item", "&6你按下了按键&f: &b<key>");
 
@@ -64,13 +57,6 @@ public class MessageFile extends FileManager {
         playerOffline = section.getString("player-not-online", "&c该玩家不在线, 无法执行指令");
         fileError = section.getString("file-error", "&c配置出错, 请排查错误");
         reload = section.getString("reload", "&a插件重载成功");
-
-        section = yaml.getConfigurationSection("cant");
-        cantTake = section.getString("take", "&4你无法拿取此物品");
-        cantSwap = section.getString("swap", "&4你无法切换到此物品栏");
-        cantFastMove = section.getString("fast-move", "&4你无法快速移动物品");
-        cantDrop = section.getString("drop", "&4你无法丢弃此物品");
-        cantSwapHand = section.getString("swap-hand", "&4你无法切换此物品到主副手");
 
         section = yaml.getConfigurationSection("item");
         itemError = section.getString("get-error", "&4物品获取失败, 请检查配置是否出错");

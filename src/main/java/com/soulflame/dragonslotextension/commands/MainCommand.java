@@ -21,7 +21,6 @@ public class MainCommand implements TabExecutor {
     public MainCommand() {
         commandMap = Maps.newHashMap();
         registerCommand(new ChangeSlot());
-        registerCommand(new Clear());
         registerCommand(new GetSlot());
         registerCommand(new Help());
         registerCommand(new Multi());
@@ -38,32 +37,36 @@ public class MainCommand implements TabExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         MessageFile message = DragonSlotExtension.message;
-        if (args.length > 0) {
-            CommandBase commandBase = commandMap.get(args[0].toLowerCase());
-            if (commandBase == null) {
-                String noChild = message.getYaml().getString("command.no-child-command", "&c该指令不存在: <command>");
-                noChild = noChild.replace("<command>", args[0]);
-                TextUtil.sendMessage(sender, noChild);
-            } else if (!sender.hasPermission(commandBase.getPermission())) {
-                String perm = message.getYaml().getString("command.dont-have-permission", "&c执行该指令需要权限: <permission>");
-                perm = perm.replace("<permission>", commandBase.getPermission());
-                TextUtil.sendMessage(sender, perm);
-            } else if (commandBase.getLength() > args.length) {
-                String error = message.getYaml().getString("command.command-args-error", "&c指令参数错误或不完整,请检查是否输错了指令: <command>");
-                error = error.replace("<command>", commandBase.getCommandDesc());
-                TextUtil.sendMessage(sender, error);
-            } else {
-                String[] strings = Arrays.copyOfRange(args, 1, args.length);
-                if (!(sender instanceof Player)) {
-                    commandBase.onConsoleCommand(sender, strings);
-                    return true;
-                }
-                commandBase.onPlayerCommand((Player) sender, strings);
-            }
+        if (args.length == 0) {
+            if (!sender.isOp() && !sender.hasPermission("dse.command.help")) return true;
+            TextUtil.sendNoPrefixMessage(sender, message.help);
             return true;
         }
-        if (!sender.isOp() && !sender.hasPermission("dse.command.help")) return true;
-        TextUtil.sendNoPrefixMessage(sender, message.help);
+        CommandBase commandBase = commandMap.get(args[0].toLowerCase());
+        if (commandBase == null) {
+            String noChild = message.getYaml().getString("command.no-child-command", "&c该指令不存在: <command>");
+            noChild = noChild.replace("<command>", args[0]);
+            TextUtil.sendMessage(sender, noChild);
+            return true;
+        }
+        if (!sender.hasPermission(commandBase.getPermission())) {
+            String perm = message.getYaml().getString("command.dont-have-permission", "&c执行该指令需要权限: <permission>");
+            perm = perm.replace("<permission>", commandBase.getPermission());
+            TextUtil.sendMessage(sender, perm);
+            return true;
+        }
+        if (commandBase.getLength() > args.length) {
+            String error = message.getYaml().getString("command.command-args-error", "&c指令参数错误或不完整,请检查是否输错了指令: <command>");
+            error = error.replace("<command>", commandBase.getCommandDesc());
+            TextUtil.sendMessage(sender, error);
+            return true;
+        }
+        String[] strings = Arrays.copyOfRange(args, 1, args.length);
+        if (!(sender instanceof Player)) {
+            commandBase.onConsoleCommand(sender, strings);
+            return true;
+        }
+        commandBase.onPlayerCommand((Player) sender, strings);
         return true;
     }
 

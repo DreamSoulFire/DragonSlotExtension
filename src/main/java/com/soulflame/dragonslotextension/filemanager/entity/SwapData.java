@@ -1,18 +1,17 @@
 package com.soulflame.dragonslotextension.filemanager.entity;
 
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import java.util.List;
 
+@Data
+@AllArgsConstructor
 public class SwapData {
 
-    @Getter
+
     private final String key;
-    @Getter
+
     private final List<String> slots;
 
-    public SwapData(String key, List<String> slots) {
-        this.key = key;
-        this.slots = slots;
-    }
 }
