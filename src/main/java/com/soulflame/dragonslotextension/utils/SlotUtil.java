@@ -39,7 +39,7 @@ public class SlotUtil {
         if (isTake) SlotAPI.setSlotItem(target, slot, new ItemStack(Material.AIR), true);
         ItemStack itemStack = items.get(0);
         ItemMeta meta = itemStack.getItemMeta();
-        String name = meta.hasDisplayName() ? meta.getDisplayName() : meta.getLocalizedName();
+        String name = meta.hasDisplayName() ? meta.getDisplayName() : itemStack.getType().name();
         int amount = itemStack.getAmount();
         String slotItemGet = DragonSlotExtension.message.slotItemGet
                 .replace("<target>", target.getName())
@@ -64,29 +64,31 @@ public class SlotUtil {
             return;
         }
         String slotItemSet = DragonSlotExtension.message.slotItemSet.replace("<slot>", slot);
+        final boolean[] play = {true};
         if (isForce) {
             SlotAPI.setSlotItem(target, slot, itemStack, true);
             TextUtil.sendMessage(player, slotItemSet);
-            return;
-        }
-        SlotAPI.getSlotItem(target, slot, new IDataBase.Callback<ItemStack>() {
-            @Override
-            public void onResult(ItemStack item) {
-                if (item != null && !Material.AIR.equals(item.getType())) {
-                    TextUtil.sendMessage(player, DragonSlotExtension.message.slotItemNotAir);
-                    return;
+        } else {
+            SlotAPI.getSlotItem(target, slot, new IDataBase.Callback<ItemStack>() {
+                @Override
+                public void onResult(ItemStack item) {
+                    if (item != null && !Material.AIR.equals(item.getType())) {
+                        TextUtil.sendMessage(player, DragonSlotExtension.message.slotItemNotAir);
+                        play[0] = false;
+                        return;
+                    }
+                    TextUtil.sendMessage(player, slotItemSet);
+                    SlotAPI.setSlotItem(target, slot, itemStack, true);
                 }
-                TextUtil.sendMessage(player, slotItemSet);
-                SlotAPI.setSlotItem(target, slot, itemStack, true);
-            }
 
-            @Override
-            public void onFail() {
-                TextUtil.sendMessage(player, DragonSlotExtension.message.itemError);
-            }
-        });
-        if (!isTake) return;
-        itemStack.setAmount(itemStack.getAmount() - 1);
+                @Override
+                public void onFail() {
+                    TextUtil.sendMessage(player, DragonSlotExtension.message.itemError);
+                }
+            });
+        }
+        if (!isTake || !play[0]) return;
+        itemStack.setAmount(0);
     }
 
     /**
@@ -130,14 +132,11 @@ public class SlotUtil {
                     TextUtil.sendMessage(sender, DragonSlotExtension.message.slotItemAir);
                     return;
                 }
-                String slotItemRemove = DragonSlotExtension.message.slotItemRemove;
-                slotItemRemove = slotItemRemove.replace("<slot>", slot);
+                String slotItemRemove = DragonSlotExtension.message.slotItemRemove.replace("<slot>", slot);
                 ItemMeta meta = item.getItemMeta();
-                slotItemRemove = meta.hasDisplayName() ?
-                        slotItemRemove.replace("<item>", meta.getDisplayName()) :
-                        slotItemRemove.replace("<item>", meta.getLocalizedName());
-                item.setType(Material.AIR);
-                SlotAPI.setSlotItem(target, slot, item, true);
+                String name = meta.hasDisplayName() ? meta.getDisplayName() : item.getType().name();
+                slotItemRemove = slotItemRemove.replace("<item>", name);
+                SlotAPI.setSlotItem(target, slot, new ItemStack(Material.AIR), true);
                 TextUtil.sendMessage(sender, slotItemRemove);
             }
 

@@ -82,12 +82,13 @@ public class ItemUtil {
                     }
                     for (int i = 0; i < lores.size(); i++) {
                         String lore = lores.get(i);
-                        if (!lore.equalsIgnoreCase(split[0])) continue;
+                        if (!ChatColor.stripColor(lore).equalsIgnoreCase(split[0])) continue;
                         lores.set(i, split[1]);
                     }
                 }
                 meta.setLore(lores);
                 itemStack.setItemMeta(meta);
+                SlotAPI.setSlotItem(player, slot, itemStack, true);
             }
 
             @Override
@@ -169,7 +170,7 @@ public class ItemUtil {
     private static String getString(Player player, EquipChanceData data, ItemStack item) {
         ItemMeta itemMeta = item.getItemMeta();
         String success = message.equipSuccess;
-        String itemName = itemMeta.hasDisplayName() ? itemMeta.getDisplayName() : itemMeta.getLocalizedName();
+        String itemName = itemMeta.hasDisplayName() ? itemMeta.getDisplayName() : item.getType().name();
         CommandUtil.run(player, data.getCommands(), itemName, "success");
         success = success.replace("<item>", itemName);
         return success;
@@ -187,7 +188,7 @@ public class ItemUtil {
         saveItem(player, item);
         ItemMeta itemMeta = item.getItemMeta();
         String equipFail = message.equipFail;
-        String itemName = itemMeta.hasDisplayName() ? itemMeta.getDisplayName() : itemMeta.getLocalizedName();
+        String itemName = itemMeta.hasDisplayName() ? itemMeta.getDisplayName() : item.getType().name();
         CommandUtil.run(player, data.getCommands(), itemName, "fail");
         equipFail = equipFail.replace("<item>", itemName);
         item.setType(Material.AIR);

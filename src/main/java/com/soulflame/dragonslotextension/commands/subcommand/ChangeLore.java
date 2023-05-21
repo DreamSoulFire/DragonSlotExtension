@@ -31,7 +31,7 @@ public class ChangeLore extends CommandBase {
 
     @Override
     public void onPlayerCommand(Player player, String[] args) {
-
+        onConsoleCommand(player, args);
     }
 
     @Override
