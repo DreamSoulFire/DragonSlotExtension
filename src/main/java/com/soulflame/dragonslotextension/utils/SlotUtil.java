@@ -9,6 +9,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SlotUtil {
     /**
      * 获取玩家槽位上的物品
@@ -18,14 +21,14 @@ public class SlotUtil {
      * @param isTake 是否拿取该槽位的物品
      */
     public static void getSlot(final Player player, Player target, String slot, boolean isTake) {
-        final ItemStack[] item = new ItemStack[1];
+        final List<ItemStack> items = new ArrayList<>();
         SlotAPI.getSlotItem(target, slot, new IDataBase.Callback<ItemStack>() {
             public void onResult(ItemStack itemStack) {
                 if (itemStack == null || Material.AIR.equals(itemStack.getType())) {
                     TextUtil.sendMessage(player, DragonSlotExtension.message.slotItemAir);
                     return;
                 }
-                item[0] = itemStack;
+                items.add(itemStack);
                 player.getInventory().addItem(itemStack);
             }
 
@@ -34,15 +37,15 @@ public class SlotUtil {
             }
         });
         if (isTake) SlotAPI.setSlotItem(target, slot, new ItemStack(Material.AIR), true);
-        ItemMeta meta = item[0].getItemMeta();
-        if (!meta.hasDisplayName()) return;
-        String name = meta.getDisplayName();
-        int amount = item[0].getAmount();
+        ItemStack itemStack = items.get(0);
+        ItemMeta meta = itemStack.getItemMeta();
+        String name = meta.hasDisplayName() ? meta.getDisplayName() : meta.getLocalizedName();
+        int amount = itemStack.getAmount();
         String slotItemGet = DragonSlotExtension.message.slotItemGet
-                .replace("target", target.getName())
+                .replace("<target>", target.getName())
                 .replace("<item>", name)
-                .replace("amount", String.valueOf(amount))
-                .replace("slot", slot);
+                .replace("<amount>", String.valueOf(amount))
+                .replace("<slot>", slot);
         TextUtil.sendMessage(player, slotItemGet);
     }
 

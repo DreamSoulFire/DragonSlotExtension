@@ -2,7 +2,8 @@ prefix: '&7[&6Dragon&bSlot&eExtension&7] '
 command:
   help:
     - '&f/dse help  &a插件帮助'
-    - '&f/dse change 玩家 槽位1 槽位2  &a交换玩家槽位1与槽位2上的物品'
+    - '&f/dse change-slot 玩家 槽位1 槽位2  &a交换玩家槽位1与槽位2上的物品'
+    - '&f/dse change-lore 玩家 计划  &a为玩家触发交换lore计划'
     - '&f/dse get 玩家 槽位 是否拿取  &a获得玩家槽位上的物品'
     - '&f/dse multi 玩家 槽位 倍数 概率(整数, 1就是百分之一的概率) 失败是否清除(true/false)  &a将玩家槽位上的物品翻倍'
     - '&f/dse open 玩家  &a打开物品装备界面'

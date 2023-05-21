@@ -71,10 +71,10 @@ public class MessageFile extends FileManager {
         itemInHandAir = section.getString("in-hand-air", "&c你手上没有任何物品");
 
         section = yaml.getConfigurationSection("slot");
-        slotItemGet = section.getString("slot-item-get", "&a你得到了玩家 <target> 的 <slot> 里的物品 <item> * <amount>");
-        slotItemSet = section.getString("slot-item-set", "&a你成功将手上的物品设置到 <slot>");
-        slotItemChange = section.getString("slot-item-change", "&a你成功交换了物品");
-        slotItemRemove = section.getString("slot-item-remove", "&a你成功移除了 <slot> 上的 <item>");
+        slotItemGet = section.getString("get", "&a你得到了玩家 <target> 的 <slot> 里的物品 <item> * <amount>");
+        slotItemSet = section.getString("set", "&a你成功将手上的物品设置到 <slot>");
+        slotItemChange = section.getString("change", "&a你成功交换了物品");
+        slotItemRemove = section.getString("remove", "&a你成功移除了 <slot> 上的 <item>");
 
         section = yaml.getConfigurationSection("change-lore");
         changeLoreSuccess = section.getString("success", "&a你成功使用了交换lore的方案&f: &b<plan>");

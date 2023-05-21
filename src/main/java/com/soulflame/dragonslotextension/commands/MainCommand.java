@@ -20,6 +20,7 @@ public class MainCommand implements TabExecutor {
 
     public MainCommand() {
         commandMap = Maps.newHashMap();
+        registerCommand(new ChangeLore());
         registerCommand(new ChangeSlot());
         registerCommand(new GetSlot());
         registerCommand(new Help());
