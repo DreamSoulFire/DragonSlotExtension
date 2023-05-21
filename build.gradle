@@ -9,7 +9,12 @@ repositories {
     mavenLocal()
     mavenCentral()
     maven {
+        name = 'placeholderapi'
         url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
+    }
+    maven {
+        name = 'paper-mc'
+        url = "https://repo.papermc.io/repository/maven-public/"
     }
 }
 
@@ -19,6 +24,7 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:+'
     annotationProcessor 'org.projectlombok:lombok:+'
     compileOnly 'org.jetbrains:annotations:+'
+    compileOnly 'com.destroystokyo.paper:paper-api:1.12.2-R0.1-SNAPSHOT'
 }
 
 tasks.withType(JavaCompile).configureEach {
