@@ -16,6 +16,7 @@
   #执行类型
   # player 玩家
   # console 后台
+  #提供<item>变量来显示物品名称
   commands:
     - 'success<->player<->say 真不错'
     - 'fail<->player<->say 太菜了'

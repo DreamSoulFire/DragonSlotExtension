@@ -31,10 +31,11 @@ public abstract class FileManager implements FileBase {
     @Override
     public void create(File folder, String name) {
         file = new File(folder, name);
-        if (file.exists()) TextUtil.sendMessage("&a已检测到 " + name + " 文件");
-        else {
+        if (!file.exists()) {
             TextUtil.sendMessage("&4未检测到 " + name + " 文件,正在生成...");
             DragonSlotExtension.getPlugin().saveResource(name, false);
+        } else {
+            TextUtil.sendMessage("&a已检测到 " + name + " 文件");
         }
         yaml = YamlConfiguration.loadConfiguration(file);
     }

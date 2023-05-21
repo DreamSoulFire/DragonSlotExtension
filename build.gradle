@@ -3,7 +3,7 @@ plugins {
 }
 
 group = 'com.soulflame.dragonslotextension'
-version = '1.0.5'
+version = '1.0.6'
 
 repositories {
     mavenLocal()
@@ -15,10 +15,10 @@ repositories {
 
 dependencies {
     compileOnly fileTree("libs")
-    compileOnly 'me.clip:placeholderapi:2.11.3'
-    compileOnly 'org.projectlombok:lombok:1.18.26'
-    annotationProcessor 'org.projectlombok:lombok:1.18.26'
-    compileOnly 'org.jetbrains:annotations:24.0.1'
+    compileOnly 'me.clip:placeholderapi:+'
+    compileOnly 'org.projectlombok:lombok:+'
+    annotationProcessor 'org.projectlombok:lombok:+'
+    compileOnly 'org.jetbrains:annotations:+'
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -32,8 +32,4 @@ processResources {
     filesMatching('plugin.yml') {
         expand props
     }
-}
-
-tasks.jar {
-    destinationDirectory.set file("C:\\Users\\D_SoulFlame\\Desktop\\测试服务端\\plugins")
 }

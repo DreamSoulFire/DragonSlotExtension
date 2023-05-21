@@ -9,7 +9,6 @@ import java.util.List;
 @AllArgsConstructor
 public class EquipSlotCmdData {
 
-
     private final List<String> check;
 
     private final List<String> commands;

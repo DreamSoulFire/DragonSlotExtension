@@ -129,7 +129,7 @@ public class EquipChanceGui implements Listener {
                         TextUtil.sendMessage(player, DragonSlotExtension.message.equipNone);
                         return;
                     }
-                    ItemUtil.runEquip(itemStack, viewSlot, clickSlot, player, true);
+                    ItemUtil.runEquip(itemStack, viewSlot, clickSlot, player, "gui");
                 }
                 @Override
                 public void onFail() {

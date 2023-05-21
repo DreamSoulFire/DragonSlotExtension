@@ -16,6 +16,6 @@ public class EquipChanceNormal implements Listener {
         Player player = event.getPlayer();
         String identifier = event.getIdentifier();
         ItemStack item = event.getItemStack();
-        ItemUtil.runEquip(item, identifier, identifier, player, false);
+        ItemUtil.runEquip(item, identifier, identifier, player, "click");
     }
 }

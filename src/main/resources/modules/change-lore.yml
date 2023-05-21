@@ -1,0 +1,8 @@
+示例:
+  #龙核槽位
+  slot: '额外槽位6'
+  #格式
+  #要替换的lore<->替换后的lore
+  #支持papi变量
+  lore-plans:
+    - '攻击力: 500<->攻击力: %player_level%'

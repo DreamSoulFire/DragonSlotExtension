@@ -17,6 +17,7 @@ public class DragonSlotExtension extends JavaPlugin {
     public static String pluginPrefix = "&7[&6Dragon&bSlot&eExtension&7] ";
     private static DragonSlotExtension plugin;
     public static ConfigFile config;
+    public static ChangeLoreFile changeLore;
     public static EquipChance equipChance;
     public static EquipSlotCmd equipCommand;
     public static EquipGui equipChanceGui;
@@ -30,6 +31,7 @@ public class DragonSlotExtension extends JavaPlugin {
     public void saveAllConfig() {
         File folder = plugin.getDataFolder();
         config = new ConfigFile(folder, "config.yml");
+        changeLore = new ChangeLoreFile(folder, "modules/change-lore.yml");
         equipChance = new EquipChance(folder, "modules/equip-chance.yml");
         equipCommand = new EquipSlotCmd(folder, "modules/equip-command.yml");
         equipChanceGui = new EquipGui(folder, "gui/equip-chance-gui.yml");
@@ -45,8 +47,8 @@ public class DragonSlotExtension extends JavaPlugin {
     }
 
     private void hook() {
-        new Hooker("PlaceholderAPI");
-        new Hooker("DragonCore");
+        new Hooker("PlaceholderAPI"
+                , "DragonCore");
     }
 
     @Override

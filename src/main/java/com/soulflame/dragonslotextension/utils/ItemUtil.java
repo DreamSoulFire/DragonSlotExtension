@@ -5,17 +5,20 @@ import com.soulflame.dragonslotextension.filemanager.config.EquipChance;
 import com.soulflame.dragonslotextension.filemanager.config.MessageFile;
 import com.soulflame.dragonslotextension.filemanager.entity.EquipChanceData;
 import eos.moe.dragoncore.api.SlotAPI;
+import eos.moe.dragoncore.database.IDataBase;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -36,9 +39,7 @@ public class ItemUtil {
         Matcher matcher = compile.matcher(s);
         while (matcher.find()) {
             String group = matcher.group(1);
-            try {
-                max += Double.parseDouble(group);
-            } catch (Exception ignored) {}
+            max += Double.parseDouble(group);
         }
         return max;
     }
@@ -60,6 +61,42 @@ public class ItemUtil {
         player.getInventory().addItem(addItem);
     }
 
+    public static void changeLore(Player player, String slot, List<String> plans) {
+        plans = PlaceholderAPI.setPlaceholders(player, plans);
+        List<String> finalPlans = plans;
+        SlotAPI.getSlotItem(player, slot, new IDataBase.Callback<ItemStack>() {
+            @Override
+            public void onResult(ItemStack itemStack) {
+                if (itemStack == null || Material.AIR.equals(itemStack.getType())) return;
+                ItemMeta meta = itemStack.getItemMeta();
+                List<String> lores = meta.hasLore() ? meta.getLore() : new ArrayList<>();
+                for (String plan : finalPlans) {
+                    if (!plan.contains("<->")) {
+                        TextUtil.sendMessage(message.fileError);
+                        break;
+                    }
+                    String[] split = plan.split("<->");
+                    if (split.length != 2) {
+                        TextUtil.sendMessage(message.fileError);
+                        break;
+                    }
+                    for (int i = 0; i < lores.size(); i++) {
+                        String lore = lores.get(i);
+                        if (!lore.equalsIgnoreCase(split[0])) continue;
+                        lores.set(i, split[1]);
+                    }
+                }
+                meta.setLore(lores);
+                itemStack.setItemMeta(meta);
+            }
+
+            @Override
+            public void onFail() {
+                TextUtil.sendMessage(player, DragonSlotExtension.message.itemError);
+            }
+        });
+    }
+
     /**
      * 保留物品
      * @param player 玩家
@@ -70,13 +107,12 @@ public class ItemUtil {
         for (String save : DragonSlotExtension.config.saveItems) {
             if (!save.contains("<->")) {
                 TextUtil.sendMessage(message.fileError);
-                continue;
+                break;
             }
             String[] split = save.split("<->");
             if (split.length != 2) {
                 TextUtil.sendMessage(message.fileError);
-                isError = true;
-                continue;
+                break;
             }
             PlayerInventory inventory = player.getInventory();
             if ("permission".equalsIgnoreCase(split[0])) {
@@ -108,63 +144,52 @@ public class ItemUtil {
     }
 
     /**
-     * 非界面装备物品时
-     * 成功装备物品执行
-     * @param isSuccess 是否成功
-     * @param player 玩家
-     * @param data 节点数据
-     * @param item 物品
-     */
-    public static void success(AtomicBoolean isSuccess, Player player, EquipChanceData data, ItemStack item) {
-        isSuccess.set(true);
-        ItemMeta itemMeta = item.getItemMeta();
-        CommandUtil.run(player, data.getCommands(), isSuccess.get());
-        String success = message.equipSuccess;
-        if (!itemMeta.hasDisplayName()) success = success.replace("<item>", item.getType().name());
-        else success = success.replace("<item>", itemMeta.getDisplayName());
-        TextUtil.sendMessage(player, success);
-    }
-
-    /**
      * 界面装备物品时
      * 成功装备物品执行
-     * @param isSuccess 是否成功
      * @param player 玩家
      * @param data 节点数据
      * @param identifier 槽位
      * @param viewSlot 过度槽位
      * @param item 物品
      */
-    public static void success(AtomicBoolean isSuccess, Player player, EquipChanceData data,
-                               String identifier, String viewSlot, ItemStack item) {
-        isSuccess.set(true);
+    public static void success(Player player, EquipChanceData data,
+                               String identifier, String viewSlot, ItemStack item, String check) {
+        String success = getString(player, data, item);
+        if ("gui".equalsIgnoreCase(check)) {
+            SlotAPI.setSlotItem(player, identifier, item, true);
+            item.setType(Material.AIR);
+            SlotAPI.setSlotItem(player, viewSlot, item, true);
+            TextUtil.sendMessage(player, success);
+        } else if ("click".equalsIgnoreCase(check)) {
+            TextUtil.sendMessage(player, success);
+        }
+    }
+
+    @NotNull
+    private static String getString(Player player, EquipChanceData data, ItemStack item) {
         ItemMeta itemMeta = item.getItemMeta();
-        CommandUtil.run(player, data.getCommands(), isSuccess.get());
-        SlotAPI.setSlotItem(player, identifier, item, true);
         String success = message.equipSuccess;
-        if (!itemMeta.hasDisplayName()) success = success.replace("<item>", item.getType().name());
-        else success = success.replace("<item>", itemMeta.getDisplayName());
-        item.setType(Material.AIR);
-        SlotAPI.setSlotItem(player, viewSlot, item, true);
-        TextUtil.sendMessage(player, success);
+        String itemName = itemMeta.hasDisplayName() ? itemMeta.getDisplayName() : itemMeta.getLocalizedName();
+        CommandUtil.run(player, data.getCommands(), itemName, "success");
+        success = success.replace("<item>", itemName);
+        return success;
     }
 
     /**
      * 物品装备失败执行
-     * @param isSuccess 是否成功
      * @param player 玩家
      * @param data 节点数据
      * @param viewSlot 过度槽位
      * @param item 物品
      */
-    public static void fail(AtomicBoolean isSuccess, Player player, EquipChanceData data,
+    public static void fail(Player player, EquipChanceData data,
                             String viewSlot, ItemStack item) {
-        CommandUtil.run(player, data.getCommands(), isSuccess.get());
         saveItem(player, item);
         ItemMeta itemMeta = item.getItemMeta();
         String equipFail = message.equipFail;
-        if (!itemMeta.hasDisplayName()) equipFail = equipFail.replace("<item>", item.getType().name());
-        else equipFail = equipFail.replace("<item>", itemMeta.getDisplayName());
+        String itemName = itemMeta.hasDisplayName() ? itemMeta.getDisplayName() : itemMeta.getLocalizedName();
+        CommandUtil.run(player, data.getCommands(), itemName, "fail");
+        equipFail = equipFail.replace("<item>", itemName);
         item.setType(Material.AIR);
         SlotAPI.setSlotItem(player, viewSlot, item, true);
         TextUtil.sendMessage(player, equipFail);
@@ -172,8 +197,7 @@ public class ItemUtil {
 
     /**
      * 检测几率
-     * @param isSuccess 是否成功
-     * @param isGui 是否是gui
+     * @param check 是否是gui
      * @param player 玩家
      * @param data 节点数据
      * @param chance 几率
@@ -182,17 +206,13 @@ public class ItemUtil {
      * @param viewSlot 过度槽位
      * @param item 物品
      */
-    public static void lastRun(AtomicBoolean isSuccess, boolean isGui, Player player, EquipChanceData data, double chance, double randomChance,
+    public static void lastRun(String check, Player player, EquipChanceData data, double chance, double randomChance,
                                String identifier, String viewSlot, ItemStack item) {
         if (chance / 100.0D >= randomChance) {
-            if (!isGui) {
-                success(isSuccess, player, data, item);
-                return;
-            }
-            success(isSuccess, player, data, identifier, viewSlot, item);
+            success(player, data, identifier, viewSlot, item, check);
             return;
         }
-        fail(isSuccess, player, data, viewSlot, item);
+        fail(player, data, viewSlot, item);
     }
 
     /**
@@ -201,15 +221,14 @@ public class ItemUtil {
      * @param viewSlot 过度槽位
      * @param identifier 槽位
      * @param player 玩家
-     * @param isGui 是否是gui
+     * @param check 是否是gui
      */
-    public static void runEquip(ItemStack item, String viewSlot, String identifier, Player player, boolean isGui) {
+    public static void runEquip(ItemStack item, String viewSlot, String identifier, Player player, String check) {
         double randomChance = new Random().nextDouble();
         if (item == null || Material.AIR.equals(item.getType())) return;
         if (viewSlot == null) return;
         EquipChance yaml = DragonSlotExtension.equipChance;
         Map<String, EquipChanceData> dataMap = yaml.map;
-        AtomicBoolean isSuccess = new AtomicBoolean(false);
         for (String key : dataMap.keySet()) {
             EquipChanceData data = dataMap.get(key);
             List<String> dragonSlot = data.getSlotList();
@@ -226,7 +245,7 @@ public class ItemUtil {
                         TextUtil.sendMessage(line);
                     }
                 }
-                lastRun(isSuccess, isGui, player, data, chance, randomChance, identifier, viewSlot, item);
+                lastRun(check, player, data, chance, randomChance, identifier, viewSlot, item);
             });
         }
     }

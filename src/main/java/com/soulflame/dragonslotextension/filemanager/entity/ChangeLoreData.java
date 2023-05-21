@@ -7,10 +7,10 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class SwapData {
+public class ChangeLoreData {
 
-    private final String key;
+    private String slot;
 
-    private final List<String> slots;
+    private List<String> plans;
 
 }

@@ -2,13 +2,16 @@ package com.soulflame.dragonslotextension.commands.subcommand;
 
 import com.soulflame.dragonslotextension.DragonSlotExtension;
 import com.soulflame.dragonslotextension.commands.CommandBase;
-import com.soulflame.dragonslotextension.utils.SlotUtil;
+import com.soulflame.dragonslotextension.filemanager.entity.ChangeLoreData;
+import com.soulflame.dragonslotextension.utils.ItemUtil;
 import com.soulflame.dragonslotextension.utils.TextUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class ChangeSlot extends CommandBase {
+import java.util.Map;
+
+public class ChangeLore extends CommandBase {
     @Override
     public void onConsoleCommand(CommandSender sender, String[] args) {
         Player player = Bukkit.getPlayer(args[0]);
@@ -16,22 +19,28 @@ public class ChangeSlot extends CommandBase {
             TextUtil.sendMessage(sender, DragonSlotExtension.message.playerOffline);
             return;
         }
-        SlotUtil.changeSlot(player, args[1], args[2]);
-        TextUtil.sendMessage(sender, DragonSlotExtension.message.slotItemChange);
+        Map<String, ChangeLoreData> map = DragonSlotExtension.changeLore.map;
+        ChangeLoreData data = map.get(args[1]);
+        if (data == null) {
+            TextUtil.sendMessage(sender, DragonSlotExtension.message.changeLoreFail);
+            return;
+        }
+        TextUtil.sendMessage(sender, DragonSlotExtension.message.changeLoreSuccess.replace("<plan>", args[1]));
+        ItemUtil.changeLore(player, data.getSlot(), data.getPlans());
     }
 
     @Override
     public void onPlayerCommand(Player player, String[] args) {
-        onConsoleCommand(player, args);
+
     }
 
     @Override
     public String getPermission() {
-        return "dse.command.change.slot";
+        return "dse.command.change.lore";
     }
 
     @Override
     public String getCommandDesc() {
-        return "/dse change-slot 玩家 槽位1 槽位2";
+        return "/dse change-lore 玩家 计划";
     }
 }

@@ -13,7 +13,6 @@ public class MessageFile extends FileManager {
     public List<String> help;
     public String cantUseInConsole;
     public String itemError;
-    public String haveErrorItem;
     public String equipSuccess;
     public String equipFail;
     public String equipNone;
@@ -26,6 +25,8 @@ public class MessageFile extends FileManager {
     public String slotItemSet;
     public String slotItemChange;
     public String slotItemRemove;
+    public String changeLoreSuccess;
+    public String changeLoreFail;
     public String swapItem;
     public String itemInHandAir;
     public String fileError;
@@ -60,7 +61,6 @@ public class MessageFile extends FileManager {
 
         section = yaml.getConfigurationSection("item");
         itemError = section.getString("get-error", "&4物品获取失败, 请检查配置是否出错");
-        haveErrorItem = section.getString("have-error", "&4身上存在违规物品, 已清除");
         equipSuccess = section.getString("equip.success", "&a你成功装备了 <item>");
         equipFail = section.getString("equip.fail", "&c装备失败, 物品 <item> 已被销毁");
         equipSave = section.getString("equip.save", "&a已保留装备, 保护符已扣除");
@@ -75,5 +75,9 @@ public class MessageFile extends FileManager {
         slotItemSet = section.getString("slot-item-set", "&a你成功将手上的物品设置到 <slot>");
         slotItemChange = section.getString("slot-item-change", "&a你成功交换了物品");
         slotItemRemove = section.getString("slot-item-remove", "&a你成功移除了 <slot> 上的 <item>");
+
+        section = yaml.getConfigurationSection("change-lore");
+        changeLoreSuccess = section.getString("success", "&a你成功使用了交换lore的方案&f: &b<plan>");
+        changeLoreFail = section.getString("fail", "&c未找到这种交换lore的方案");
     }
 }
